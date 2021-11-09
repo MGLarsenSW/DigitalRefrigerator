@@ -1,4 +1,16 @@
 
+void ClearConsole() {
+
+    printf("\e[1;1H\e[2J");
+
+    #ifdef _WIN32
+        system("cls");
+    #else //In any other OS
+        system("clear");
+    #endif
+
+}
+
 int HandleScan(int screen) {
 
     if(screen) {
@@ -26,7 +38,7 @@ void ShowWelcomeScreen() {
 
 }
 
-void ShowProductsScreen() {
+void ShowProductsScreen(int numberOfProducts, struct Product products[]) {
 
     printf("DU HAR FØLGENDE PRODUKTER I DIT KØLESKAB:\n\n");
 
@@ -61,14 +73,14 @@ void ShowAddScreen() {
 
     char* name = strtok(GetName(barcode), "\n");
 
-    printf("\e[1;1H\e[2J"); //clear console
+    ClearConsole();
 
     if(atoi(name) == 1) {
 
         printf("\nVaren findes ikke i vores database.\nIndtast venligst et navn på produktet:\n\n");
         scanf(" %s", name);
 
-        printf("\e[1;1H\e[2J"); //clear console
+        ClearConsole();
 
     }
 
@@ -149,7 +161,7 @@ char* GetName(int id) {
 
 }
 
-void GetUserProducts() {
+void GetUserProducts(int *number, struct Product *products) {
 
     FILE* fp = fopen("database/user_products", "r");
 
@@ -189,7 +201,7 @@ void GetUserProducts() {
                     products[row-2].date = atoi(value);
                 }
 
-                numberOfProducts = row-1;
+                *number = row-1;
 
                 value = strtok(NULL, ", ");
                 column++;

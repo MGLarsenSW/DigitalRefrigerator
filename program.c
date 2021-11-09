@@ -9,17 +9,19 @@
 int main(void) {
 
     int screen = 0;
+    int numberOfProducts = 0;
+    struct Product products[100];
 
     while(1) {
 
-        GetUserProducts();
+        GetUserProducts(&numberOfProducts, products);
 
-        printf("\e[1;1H\e[2J"); //clear console
+        ClearConsole();
 
         switch (screen) {
 
             case 1:
-            ShowProductsScreen();
+            ShowProductsScreen(numberOfProducts, products);
             break;
 
             case 2:
