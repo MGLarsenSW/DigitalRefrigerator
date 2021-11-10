@@ -169,7 +169,7 @@ fabric.properties
 .DS_Store
 .AppleDouble
 .LSOverride
-database/user_products
+database/user_products.txt
 
 # Icon must end with two \r
 Icon

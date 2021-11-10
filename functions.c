@@ -84,7 +84,7 @@ void ShowAddScreen() {
 
     }
 
-    FILE* fp = fopen("database/user_products", "a+");
+    FILE* fp = fopen("database/user_products.txt", "a+");
 
     if(!fp){
         printf("CAN'T OPEN 'USER_PRODUCTS' FILE\n");
@@ -124,7 +124,7 @@ char* strdup(const char* org)
 
 char* GetName(int id) {
 
-    FILE* fp = fopen("database/barcode_list", "r");
+    FILE* fp = fopen("database/barcode_list.txt", "r");
 
     if(!fp){ printf("CAN'T OPEN 'BARCODE_LISTE' FILE\n");
 
@@ -163,7 +163,7 @@ char* GetName(int id) {
 
 void GetUserProducts(int *number, struct Product *products) {
 
-    FILE* fp = fopen("database/user_products", "r");
+    FILE* fp = fopen("database/user_products.txt", "r");
 
     if(!fp){ printf("CAN'T OPEN 'USER_PRODUCTS' FILE\n");
 
