@@ -107,6 +107,8 @@ void ShowAddScreen() {
 
     printf("\nTHE PRODUCT WAS ADDED SUCCESSFULLY!\n\n");
 
+    printf("IF YOU WANT TO ADD A NEW PRODUCT, PRESS B\n\n");
+
     fclose(fp);
 
 }
