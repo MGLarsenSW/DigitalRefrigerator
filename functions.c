@@ -14,7 +14,7 @@ void ClearConsole() {
 int HandleScan(int screen) {
 
     if(screen) {
-        printf("SKRIV 'Q' FOR AT GÅ TILBAGE\n\n");
+        printf("ENTER 'Q' TO GO BACK\n\n");
     }
 
     char ch;
@@ -31,22 +31,22 @@ int HandleScan(int screen) {
 
 void ShowWelcomeScreen() {
 
-    printf("DU HAR NU FØLGENDE VALGMULIGHEDER:\n\n");
+    printf("YOU HAVE THE FOLLOWING OPTIONS:\n\n");
 
-    printf("A:  SE DIT KØLESKAB           B:  TILFØJ PRODUKTER\n\n");
-    printf("C:  ÆNDRE PRODUKTER           D:  SLET PRODUKTER\n\n\n");
+    printf("A:  VIEW YOUR INVENTORY       B:  ADD PRODUCT\n\n");
+    printf("C:  CHANGE PRODUCT            D:  DELETE PRODUCT\n\n\n");
 
 }
 
 void ShowProductsScreen(int numberOfProducts, struct Product products[]) {
 
-    printf("DU HAR FØLGENDE PRODUKTER I DIT KØLESKAB:\n\n");
+    printf("YOU HAVE THE FOLLOWING ITEMS IN YOUR INVENTORY:\n\n");
 
     for (int i = 0; i < numberOfProducts; i++)
     {
         
         printf("%d. %s \n", i, products[i].name);
-        printf("UDLØBER: %d \n\n", products[i].date);
+        printf("EXPIRE: %d \n\n", products[i].date);
 
     }
     
@@ -68,7 +68,7 @@ void ShowAddScreen() {
 
     int id, barcode, date;
 
-    printf("\nSCAN STREGKODEN PÅ PRODUKTET\n\n");
+    printf("\nSCAN THE BARCODE ON THE PRODUCT\n\n");
     scanf(" %d", &barcode);
 
     char* name = strtok(GetName(barcode), "\n");
@@ -77,7 +77,7 @@ void ShowAddScreen() {
 
     if(atoi(name) == 1) {
 
-        printf("\nVaren findes ikke i vores database.\nIndtast venligst et navn på produktet:\n\n");
+        printf("\nTHE PRODUCT IS NOT IN OUR DATABASE.\nPLEASE ENTER THE NAME OF THE PRODUCT.\n\n");
         scanf(" %s", name);
 
         ClearConsole();
@@ -87,12 +87,12 @@ void ShowAddScreen() {
     FILE* fp = fopen("database/user_products", "a+");
 
     if(!fp){
-        printf("Can't open file\n");
+        printf("CAN'T OPEN 'USER_PRODUCTS' FILE\n");
     }
 
-    printf("\nDU HAR SCANNET: %s\n", name);
+    printf("\nYOU HAVE SCANNET: %s\n", name);
 
-    printf("\nINDTAST VENLIGST PRODUKTETS UDLØBSDATO\n\n");
+    printf("\nPLEASE ENTER THE PRODUCTS EXPIRAION DATE\n\n");
     scanf(" %d", &date);
 
     srand(time(NULL));
@@ -100,7 +100,7 @@ void ShowAddScreen() {
 
     fprintf(fp, "%d, %d, %s, %d\n", id, barcode, name, date);
 
-    printf("\nPRODUKTET BLEV TILFØJET!\n\n");
+    printf("\nTHE PRODUCT WAS ADDED SUCCESSFULLY!\n\n");
 
     fclose(fp);
 
@@ -126,7 +126,7 @@ char* GetName(int id) {
 
     FILE* fp = fopen("database/barcode_list", "r");
 
-    if(!fp){ printf("Can't open file\n");
+    if(!fp){ printf("CAN'T OPEN 'BARCODE_LISTE' FILE\n");
 
     } else {
 
@@ -165,7 +165,7 @@ void GetUserProducts(int *number, struct Product *products) {
 
     FILE* fp = fopen("database/user_products", "r");
 
-    if(!fp){ printf("Can't open file\n");
+    if(!fp){ printf("CAN'T OPEN 'USER_PRODUCTS' FILE\n");
 
     } else {
 
