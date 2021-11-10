@@ -34,7 +34,7 @@ void ShowWelcomeScreen() {
     printf("YOU HAVE THE FOLLOWING OPTIONS:\n\n");
 
     printf("A:  VIEW YOUR INVENTORY       B:  ADD PRODUCT\n\n");
-    printf("C:  CHANGE PRODUCT            D:  DELETE PRODUCT\n\n\n");
+    printf("C:  EDIT PRODUCT              D:  DELETE PRODUCT\n\n\n");
 
 }
 
