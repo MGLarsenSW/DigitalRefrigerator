@@ -25,6 +25,7 @@ int HandleScan(int screen) {
     if(toupper(ch) == 'B') { return 2; }
     if(toupper(ch) == 'C') { return 3; }
     if(toupper(ch) == 'D') { return 4; }
+    if(toupper(ch) == 'Q' && !screen) { return 5; }
 
     return 0;
 }
@@ -34,7 +35,8 @@ void ShowWelcomeScreen() {
     printf("YOU HAVE THE FOLLOWING OPTIONS:\n\n");
 
     printf("A:  VIEW YOUR INVENTORY       B:  ADD PRODUCT\n\n");
-    printf("C:  EDIT PRODUCT              D:  DELETE PRODUCT\n\n\n");
+    printf("C:  EDIT PRODUCT              D:  DELETE PRODUCT\n\n");
+    printf("Q:  EXIT PROGRAM\n\n");
 
 }
 
@@ -48,6 +50,9 @@ void ShowProductsScreen(int numberOfProducts, struct Product products[]) {
         printf("%d. %s \n", i, products[i].name);
         printf("EXPIRE: %d \n\n", products[i].date);
 
+    }
+    if (numberOfProducts == 0){
+        printf("YOU HAVE NOTHING IN THE INVENTORY AT THE MOMENT\n\n");
     }
     
 }
