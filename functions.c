@@ -1,7 +1,4 @@
-
 void ClearConsole() {
-
-    printf("\e[1;1H\e[2J");
 
     #ifdef _WIN32
         system("cls");
@@ -83,7 +80,7 @@ void ShowAddScreen() {
     if(atoi(name) == 1) {
 
         printf("\nTHE PRODUCT IS NOT IN OUR DATABASE.\nPLEASE ENTER THE NAME OF THE PRODUCT.\n\n");
-        scanf(" %s", name);
+        scanf(" %[^\n]%*c", name);
 
         ClearConsole();
 
@@ -95,7 +92,7 @@ void ShowAddScreen() {
         printf("CAN'T OPEN 'USER_PRODUCTS' FILE\n");
     }
 
-    printf("\nYOU HAVE SCANNET: %s\n", name);
+    printf("\nYOU HAVE SCANNED: %s\n", name);
 
     printf("\nPLEASE ENTER THE PRODUCTS EXPIRAION DATE\n\n");
     scanf(" %d", &date);
@@ -103,7 +100,7 @@ void ShowAddScreen() {
     srand(time(NULL));
     id = rand();
 
-    fprintf(fp, "%d, %d, %s, %d\n", id, barcode, name, date);
+    fprintf(fp, "%d,%d,%s,%d\n", id, barcode, name, date);
 
     printf("\nTHE PRODUCT WAS ADDED SUCCESSFULLY!\n\n");
 
@@ -147,13 +144,13 @@ char* GetName(int id) {
             if(row == 1) { continue; }
 
             // Splitting the data
-            char* value = strtok(buffer, ", ");
+            char* value = strtok(buffer, ",");
             
             int number = atoi(value);
 
             if(number == id) {
 
-                value = strtok(NULL, ", ");
+                value = strtok(NULL, ",");
                 
                 return strdup(value);
 
@@ -186,7 +183,7 @@ void GetUserProducts(int *number, struct Product *products) {
             if(row == 1) { continue; }
 
             // Splitting the data
-            char* value = strtok(buffer, ", ");
+            char* value = strtok(buffer, ",");
 
             int column = 0;
             
@@ -210,7 +207,7 @@ void GetUserProducts(int *number, struct Product *products) {
 
                 *number = row-1;
 
-                value = strtok(NULL, ", ");
+                value = strtok(NULL, ",");
                 column++;
             }
             
