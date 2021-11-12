@@ -128,9 +128,9 @@ char* strdup(const char* org)
 
 char* GetName(int id) {
 
-    FILE* fp = fopen("database/barcode_list.txt", "r");
+    FILE* fp = fopen(PATHTOBARCODE, "r");
 
-    if(!fp){ printf("CAN'T OPEN 'BARCODE_LISTE' FILE\n");
+    if(!fp){ printf("CAN'T OPEN '%s'\n", PATHTOBARCODE);
 
     } else {
 
@@ -167,9 +167,9 @@ char* GetName(int id) {
 
 void GetUserProducts(int *number, struct Product *products) {
 
-    FILE* fp = fopen("database/user_products.txt", "r");
+    FILE* fp = fopen(PATHTOUSERPRODUCTS, "r");
 
-    if(!fp){ printf("CAN'T OPEN 'USER_PRODUCTS' FILE\n");
+    if(!fp){ printf("CAN'T OPEN '%s'\n", PATHTOUSERPRODUCTS);
 
     } else {
 

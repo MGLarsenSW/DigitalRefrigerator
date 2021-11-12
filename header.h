@@ -1,3 +1,5 @@
+#define PATHTOUSERPRODUCTS "database/user_products.txt"
+#define PATHTOBARCODE "database/barcode_list.txt"
 
 struct Product
 {
