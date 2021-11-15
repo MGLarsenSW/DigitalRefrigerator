@@ -44,6 +44,7 @@ void ShowProductsScreen(int numberOfProducts, struct Product products[]) {
     for (int i = 0; i < numberOfProducts; i++)
     {
         
+        printf("ID: %d \n", products[i].id);
         printf("%d. %s \n", i, products[i].name);
         printf("EXPIRE: %d \n\n", products[i].date);
 
@@ -54,9 +55,53 @@ void ShowProductsScreen(int numberOfProducts, struct Product products[]) {
     
 }
 
-void ShowDeleteScreen() {
+// http://www.tutorialspanel.com/delete-a-specific-line-from-a-text-file-using-c/index.htm
+void ShowDeleteScreen(struct Product products[]) {
 
-    printf("DELETE SCREEN:\n");
+    int delete, line_number = 0;
+    char copy;
+    
+    printf("WHICH ITEM DO YOU WANT TO DELETE (BY LINE)?:\n");
+    scanf(" %d", &delete);
+    delete = abs(delete);
+
+    FILE* fp = fopen(PATHTOUSERPRODUCTS, "r");
+
+    if(!fp){ printf("CAN'T OPEN '%s'\n", PATHTOUSERPRODUCTS); }
+    else {
+        FILE* temp = fopen("database/user_products_temp.txt", "w");
+        copy = getc(fp);
+        if(copy != EOF) { line_number = -1; }
+        while(1)
+        {
+            if(delete != line_number)
+            putc(copy, temp);
+            copy = getc(fp);
+            if(copy =='\n') line_number++;
+            if(copy == EOF) break;
+        }
+        fclose(temp);
+        fclose(fp);
+
+        temp = fopen("database/user_products_temp.txt", "r");
+        fp = fopen(PATHTOUSERPRODUCTS, "w");
+
+        copy = fgetc(temp);
+        while (copy != EOF)
+        {
+            /* Write to destination file */
+            fputc(copy, fp);
+
+            /* Read next character from source file */
+            copy = fgetc(temp);
+        }
+        fclose(temp);
+        fclose(fp);
+
+        printf("\nTHE PRODUCT WAS DELETED SUCCESSFULLY!\n\n");
+
+        remove("database/user_products_temp.txt");
+    }
     
 }
 
@@ -86,11 +131,9 @@ void ShowAddScreen() {
 
     }
 
-    FILE* fp = fopen("database/user_products.txt", "a+");
+    FILE* fp = fopen(PATHTOUSERPRODUCTS, "a+");
 
-    if(!fp){
-        printf("CAN'T OPEN 'USER_PRODUCTS' FILE\n");
-    }
+    if(!fp){ printf("CAN'T OPEN '%s'\n", PATHTOUSERPRODUCTS); }
 
     printf("\nYOU HAVE SCANNED: %s\n", name);
 

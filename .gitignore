@@ -1,3 +1,6 @@
+# DOCUMENTATION 
+# https://linuxize.com/post/gitignore-ignoring-files-in-git/
+
 # Default ignored files
 /shelf/
 /workspace.xml
@@ -169,7 +172,7 @@ fabric.properties
 .DS_Store
 .AppleDouble
 .LSOverride
-database/user_products.txt
+user_products.txt
 
 # Icon must end with two \r
 Icon
@@ -196,10 +199,10 @@ Temporary Items
 
 ### VisualStudioCode ###
 .vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+#!.vscode/settings.json
+#!.vscode/tasks.json
+#!.vscode/launch.json
+#!.vscode/extensions.json
 *.code-workspace
 
 # Local History for Visual Studio Code

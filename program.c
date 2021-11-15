@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
+#include <math.h>
 #include "header.h"
 #include "functions.c"
 
@@ -33,7 +34,8 @@ int main(void) {
             break;
 
             case 4:
-            ShowDeleteScreen();
+            ShowProductsScreen(numberOfProducts, products);
+            ShowDeleteScreen(products);
             break;
 
             default:
