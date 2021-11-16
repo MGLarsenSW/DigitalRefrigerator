@@ -35,8 +35,10 @@ void ShowWelcomeScreen() {
     printf("C:  EDIT PRODUCT              D:  DELETE PRODUCT\n\n");
     printf("Q:  EXIT PROGRAM\n\n");
 
-    int line = GetLine(2027475270);
-    printf("%d", line);
+    int id = 20274752;
+    int line = GetLine(&id);
+    int row = GetLine(&line);
+    printf("line = %d\n\n", row);
 
 }
 
@@ -172,7 +174,7 @@ char* strdup(const char* org)
     return newstr;
 }
 
-int GetLine(int id){
+int GetLine(int *id){
     int close, line;
     FILE* fp = fopen(PATHTOUSERPRODUCTS, "r");
 
@@ -196,16 +198,17 @@ int GetLine(int id){
                 if (column == 0) {
                     close = atoi(value);
                 }
-                if (id == close) {
-                    row = line;
-                }
+//                if (*id == close)/* */{
+//                    row = line;
+//                }
                 value = strtok(NULL, ",");
                 column++;
             }
         }
         fclose(fp);
+        return row;
     }
-    return line;
+//    return *id;
 }
 
 char* GetName(int id) {
