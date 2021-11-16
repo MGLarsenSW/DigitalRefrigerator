@@ -35,6 +35,9 @@ void ShowWelcomeScreen() {
     printf("C:  EDIT PRODUCT              D:  DELETE PRODUCT\n\n");
     printf("Q:  EXIT PROGRAM\n\n");
 
+    int line = GetLine(2027475270);
+    printf("%d", line);
+
 }
 
 void ShowProductsScreen(int numberOfProducts, struct Product products[]) {
@@ -167,6 +170,42 @@ char* strdup(const char* org)
 
     while(*org) *p++ = *org++; /* copy the string. */
     return newstr;
+}
+
+int GetLine(int id){
+    int close, line;
+    FILE* fp = fopen(PATHTOUSERPRODUCTS, "r");
+
+    if(!fp){
+        printf("CAN'T OPEN '%s'\n", PATHTOUSERPRODUCTS); 
+    } else {
+
+        char buffer[1024];
+        int row = 0;
+
+        while(fgets(buffer, 1024, fp)) {
+            row++;
+
+            if(row == 1) { continue; }
+            char* value = strtok(buffer, ",");
+            
+            int column = 0;
+            
+            while(value){
+
+                if (column == 0) {
+                    close = atoi(value);
+                }
+                if (id == close) {
+                    row = line;
+                }
+                value = strtok(NULL, ",");
+                column++;
+            }
+        }
+        fclose(fp);
+    }
+    return line;
 }
 
 char* GetName(int id) {
