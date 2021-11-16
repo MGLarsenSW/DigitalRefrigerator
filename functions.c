@@ -35,6 +35,8 @@ void ShowWelcomeScreen() {
     printf("C:  EDIT PRODUCT              D:  DELETE PRODUCT\n\n");
     printf("Q:  EXIT PROGRAM\n\n");
 
+
+//    https://www.tutorialspoint.com/c_standard_library/c_function_fscanf.htm
     int id = 20274752;
     int line = GetLine(&id);
     int row = GetLine(&line);
@@ -198,9 +200,6 @@ int GetLine(int *id){
                 if (column == 0) {
                     close = atoi(value);
                 }
-//                if (*id == close)/* */{
-//                    row = line;
-//                }
                 value = strtok(NULL, ",");
                 column++;
             }
@@ -208,7 +207,7 @@ int GetLine(int *id){
         fclose(fp);
         return row;
     }
-//    return *id;
+    return *id;
 }
 
 char* GetName(int id) {
