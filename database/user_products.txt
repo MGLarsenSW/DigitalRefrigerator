@@ -1,4 +1,0 @@
-id, barcode, name, date
-1946616793,1042,Pepsi Max,5049
-1996606274,2222,Monster,539
-2007480403,111451494,Aqua d'Or,2010
