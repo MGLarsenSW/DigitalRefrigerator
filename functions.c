@@ -30,7 +30,7 @@ int HandleScan(int screen) {
 void ShowWelcomeScreen() {
 
     dprint("----------------------------------------------------\n", 'o');
-    dprint("-", 'o'); dprint("                      MENU                        ", "b"); dprint("-\n", 'o');
+    dprint("-", 'o'); dprint("                      MENU                        ", 'b'); dprint("-\n", 'o');
     dprint("----------------------------------------------------\n\n", 'o');
 
     printf("A:  VIEW YOUR INVENTORY       B:  ADD PRODUCT\n\n");
@@ -65,7 +65,7 @@ void ShowDeleteScreen(struct Product products[]) {
     
     printf("WHICH ITEM DO YOU WANT TO DELETE (BY LINE)?:\n");
     scanf(" %d", &delete);
-    delete = abs(delete);
+    //delete = abs(delete);
 
     FILE* fp = fopen(PATHTOUSERPRODUCTS, "r");
 
@@ -73,10 +73,10 @@ void ShowDeleteScreen(struct Product products[]) {
     else {
         FILE* temp = fopen("database/user_products_temp.txt", "w");
         copy = getc(fp);
-        if(copy != EOF) { line_number = -1; }
+        if(copy != EOF) { line_number = 0; }
         while(1)
         {
-            if(delete != line_number)
+            if(GetLine(delete) != line_number)
             putc(copy, temp);
             copy = getc(fp);
             if(copy =='\n') line_number++;

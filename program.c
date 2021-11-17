@@ -17,7 +17,7 @@ int main(void) {
 
         GetUserProducts(&numberOfProducts, products);
 
-        ClearConsole();
+        //ClearConsole();
 
         switch (screen) {
 
