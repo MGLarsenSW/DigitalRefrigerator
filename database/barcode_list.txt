@@ -3,3 +3,8 @@ id, name
 2222,Monster
 3333,Cola
 4444,Ris
+5741000156841,Pepsi Max Lime
+5741000109151,Faxe Kondi
+5741000131077,Royal Export
+5740700999833,Tuborg Classic
+5703828020582,Aqua d'Or
