@@ -35,13 +35,6 @@ void ShowWelcomeScreen() {
     printf("C:  EDIT PRODUCT              D:  DELETE PRODUCT\n\n");
     printf("Q:  EXIT PROGRAM\n\n");
 
-
-//    https://www.tutorialspoint.com/c_standard_library/c_function_fscanf.htm
-    int id = 20274752;
-    int line = GetLine(&id);
-    int row = GetLine(&line);
-    printf("line = %d\n\n", row);
-
 }
 
 void ShowProductsScreen(int numberOfProducts, struct Product products[]) {
@@ -176,38 +169,41 @@ char* strdup(const char* org)
     return newstr;
 }
 
-int GetLine(int *id){
-    int close, line;
+int GetLine(int id){
+    
     FILE* fp = fopen(PATHTOUSERPRODUCTS, "r");
 
-    if(!fp){
-        printf("CAN'T OPEN '%s'\n", PATHTOUSERPRODUCTS); 
+    if(!fp){ printf("CAN'T OPEN '%s'\n", PATHTOUSERPRODUCTS);
+
     } else {
 
         char buffer[1024];
         int row = 0;
 
         while(fgets(buffer, 1024, fp)) {
+
             row++;
 
             if(row == 1) { continue; }
+
+            // Splitting the data
             char* value = strtok(buffer, ",");
             
-            int column = 0;
-            
-            while(value){
+            int number = atoi(value);
 
-                if (column == 0) {
-                    close = atoi(value);
-                }
-                value = strtok(NULL, ",");
-                column++;
+            if(number == id) {
+
+                return row;
+
             }
+            
         }
+
         fclose(fp);
-        return row;
     }
-    return *id;
+
+    return 0;
+
 }
 
 char* GetName(int id) {
