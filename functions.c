@@ -145,7 +145,13 @@ void ShowAddScreen() {
     int id, barcode, date;
 
     printf("\nSCAN THE BARCODE ON THE PRODUCT\n\n");
-    scanf(" %d", &barcode);
+
+    while (scanf("%d", &barcode) != 1) {
+
+        printf("\nYOU DID NOT ENTER A VALID BARCODE\n\n");
+
+        scanf("%*s");
+    }
 
     char* name = strtok(GetName(barcode), "\n");
 
