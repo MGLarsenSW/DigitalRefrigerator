@@ -30,7 +30,7 @@ int HandleScan(int screen) {
 void ShowWelcomeScreen() {
 
     dprint("----------------------------------------------------\n", 'o');
-    dprint("-", 'o'); dprint("                      MENU                        ", 'b'); dprint("-\n", 'o');
+    dprint("-                      MENU                        -\n", 'b');
     dprint("----------------------------------------------------\n\n", 'o');
 
     printf("A:  VIEW YOUR INVENTORY       B:  ADD PRODUCT\n\n");
@@ -315,22 +315,6 @@ void dprint(char* text, char type) {
 
     switch (type)
     {
-    case 'b':
-        printf("\033[1;37m%s \033[0m", text);
-        break;
-    case 'i':
-        printf("\033[3;37m%s\033[0m", text);
-        break;
-    case 'u':
-        printf("\033[4;37m%s\033[0m", text);
-        break;
-    case 'm':
-        printf("\033[7;37m%s\033[0m", text);
-        break;
-    case 'o':
-        printf("\033[9;37m%s\033[0m", text);
-        break;
-
     //colors
     case '0': // black
         printf("\033[1;37m%s \033[0m", text);
