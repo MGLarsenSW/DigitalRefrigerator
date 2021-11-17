@@ -47,7 +47,7 @@ void ShowProductsScreen(int numberOfProducts, struct Product products[]) {
     {
         
         printf("ID: %d \n", products[i].id);
-        printf("%d. %s \n", i, products[i].name);
+        printf("%s \n", products[i].name);
         printf("EXPIRE: %d \n\n", products[i].date);
 
     }
@@ -60,27 +60,38 @@ void ShowProductsScreen(int numberOfProducts, struct Product products[]) {
 // http://www.tutorialspanel.com/delete-a-specific-line-from-a-text-file-using-c/index.htm
 void ShowDeleteScreen(struct Product products[]) {
 
-    int delete, line_number = 0;
+    int id, lineOfProduct = 0, line = 0;
     char copy;
     
-    printf("WHICH ITEM DO YOU WANT TO DELETE (BY LINE)?:\n");
-    scanf(" %d", &delete);
-    //delete = abs(delete);
+    printf("WHICH ITEM DO YOU WANT TO DELETE (BY ID)?:\n");
+    scanf(" %d", &id);
 
     FILE* fp = fopen(PATHTOUSERPRODUCTS, "r");
 
-    if(!fp){ printf("CAN'T OPEN '%s'\n", PATHTOUSERPRODUCTS); }
-    else {
+    lineOfProduct = GetLine(id);
+
+    if(!fp) { 
+        printf("ShowDeleteScreen() - CAN'T OPEN '%s'\n", PATHTOUSERPRODUCTS);
+    } else {
+
         FILE* temp = fopen("database/user_products_temp.txt", "w");
+
         copy = getc(fp);
-        if(copy != EOF) { line_number = 0; }
-        while(1)
-        {
-            if(GetLine(delete) != line_number)
-            putc(copy, temp);
+
+        while(copy != EOF) {
+
             copy = getc(fp);
-            if(copy =='\n') line_number++;
-            if(copy == EOF) break;
+
+            if(lineOfProduct != line+1) {
+
+                putc(copy, temp);
+
+            }                
+            if(copy =='\n') {
+                    printf("NEW LINE\n");
+                    line++;
+            }
+
         }
         fclose(temp);
         fclose(fp);
@@ -175,7 +186,7 @@ int GetLine(int id){
     
     FILE* fp = fopen(PATHTOUSERPRODUCTS, "r");
 
-    if(!fp){ printf("CAN'T OPEN '%s'\n", PATHTOUSERPRODUCTS);
+    if(!fp){ printf("GetLine() - CAN'T OPEN '%s'\n", PATHTOUSERPRODUCTS);
 
     } else {
 
