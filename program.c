@@ -34,8 +34,7 @@ int main(void) {
             break;
 
             case 4:
-            ShowProductsScreen(numberOfProducts, products);
-            ShowDeleteScreen(products);
+            ShowDeleteScreen(numberOfProducts, products);
             break;
 
             default:

@@ -12,7 +12,7 @@ struct Product
 void HandleScreens();
 void ShowWelcomeScreen();
 void ShowProductsScreen(int number, struct Product products[]);
-void ShowDeleteScreen(struct Product products[]);
+void ShowDeleteScreen(int numberOfProducts, struct Product products[]);
 void ShowEditScreen();
 void ShowAddScreen();
 void AddProduct();

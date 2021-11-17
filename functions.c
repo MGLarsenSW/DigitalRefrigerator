@@ -41,7 +41,7 @@ void ShowWelcomeScreen() {
 
 void ShowProductsScreen(int numberOfProducts, struct Product products[]) {
 
-    printf("YOU HAVE THE FOLLOWING ITEMS IN YOUR INVENTORY:\n\n");
+    printf("YOU HAVE THE FOLLOWING ITEMS IN YOUR INVENTORY (%d):\n\n", numberOfProducts);
 
     for (int i = 0; i < numberOfProducts; i++)
     {
@@ -58,7 +58,21 @@ void ShowProductsScreen(int numberOfProducts, struct Product products[]) {
 }
 
 // http://www.tutorialspanel.com/delete-a-specific-line-from-a-text-file-using-c/index.htm
-void ShowDeleteScreen(struct Product products[]) {
+void ShowDeleteScreen(int numberOfProducts, struct Product products[]) {
+
+    printf("YOU HAVE THE FOLLOWING ITEMS IN YOUR INVENTORY:\n\n");
+
+    for (int i = 0; i < numberOfProducts; i++)
+    {
+        
+        printf("ID: %d \n", products[i].id);
+        printf("%s \n", products[i].name);
+        printf("EXPIRE: %d \n\n", products[i].date);
+
+    }
+    if (numberOfProducts == 0){
+        printf("YOU HAVE NOTHING IN THE INVENTORY AT THE MOMENT\n\n");
+    }
 
     int id, lineOfProduct = 0, line = 0;
     char copy;
@@ -80,7 +94,7 @@ void ShowDeleteScreen(struct Product products[]) {
 
         while(copy != EOF) {
 
-            if(lineOfProduct != line+1) {
+            if(lineOfProduct != line) {
 
                 putc(copy, temp);
 
@@ -195,10 +209,6 @@ int GetLine(int id){
 
         while(fgets(buffer, 1024, fp)) {
 
-            row++;
-
-            if(row == 1) { continue; }
-
             // Splitting the data
             char* value = strtok(buffer, ",");
             
@@ -209,6 +219,8 @@ int GetLine(int id){
                 return row;
 
             }
+
+            row++;
             
         }
 
@@ -228,13 +240,8 @@ char* GetName(int id) {
     } else {
 
         char buffer[1024];
-        int row = 0;
 
         while(fgets(buffer, 1024, fp)) {
-
-            row++;
-
-            if(row == 1) { continue; }
 
             // Splitting the data
             char* value = strtok(buffer, ",");
@@ -271,10 +278,6 @@ void GetUserProducts(int *number, struct Product *products) {
 
         while(fgets(buffer, 1024, fp)) {
 
-            row++;
-
-            if(row == 1) { continue; }
-
             // Splitting the data
             char* value = strtok(buffer, ",");
 
@@ -283,26 +286,28 @@ void GetUserProducts(int *number, struct Product *products) {
             while(value){
 
                 if (column == 0) {
-                    products[row-2].id = atoi(value);
+                    products[row].id = atoi(value);
                 }
 
                 if (column == 1) {
-                    products[row-2].barcode = atoi(value);
+                    products[row].barcode = atoi(value);
                 }
 
                 if (column == 2) {
-                    products[row-2].name = strdup(value);
+                    products[row].name = strdup(value);
                 }
 
                 if (column == 3) {
-                    products[row-2].date = atoi(value);
+                    products[row].date = atoi(value);
                 }
 
-                *number = row-1;
+                *number = row+1;
 
                 value = strtok(NULL, ",");
                 column++;
             }
+
+            row++;
             
         }
 
