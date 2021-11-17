@@ -80,17 +80,17 @@ void ShowDeleteScreen(struct Product products[]) {
 
         while(copy != EOF) {
 
-            copy = getc(fp);
-
             if(lineOfProduct != line+1) {
 
                 putc(copy, temp);
 
-            }                
+            }     
+                       
             if(copy =='\n') {
-                    printf("NEW LINE\n");
-                    line++;
+                line++;
             }
+
+            copy = getc(fp);
 
         }
         fclose(temp);
