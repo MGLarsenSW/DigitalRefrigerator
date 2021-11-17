@@ -29,7 +29,9 @@ int HandleScan(int screen) {
 
 void ShowWelcomeScreen() {
 
-    printf("YOU HAVE THE FOLLOWING OPTIONS:\n\n");
+    dprint("----------------------------------------------------\n", 'o');
+    dprint("-", 'o'); dprint("                      MENU                        ", "b"); dprint("-\n", 'o');
+    dprint("----------------------------------------------------\n\n", 'o');
 
     printf("A:  VIEW YOUR INVENTORY       B:  ADD PRODUCT\n\n");
     printf("C:  EDIT PRODUCT              D:  DELETE PRODUCT\n\n");
@@ -294,6 +296,59 @@ void GetUserProducts(int *number, struct Product *products) {
         }
 
         fclose(fp);
+    }
+
+}
+
+void dprint(char* text, char type) {
+
+    switch (type)
+    {
+    case 'b':
+        printf("\033[1;37m%s \033[0m", text);
+        break;
+    case 'i':
+        printf("\033[3;37m%s\033[0m", text);
+        break;
+    case 'u':
+        printf("\033[4;37m%s\033[0m", text);
+        break;
+    case 'm':
+        printf("\033[7;37m%s\033[0m", text);
+        break;
+    case 'o':
+        printf("\033[9;37m%s\033[0m", text);
+        break;
+
+    //colors
+    case '0': // black
+        printf("\033[1;37m%s \033[0m", text);
+        break;
+    case '1': // blue
+        printf("\033[1;34m%s", text);
+        break;
+    case '2': // green
+        printf("\033[1;32m%s", text);
+        break;
+    case '3': // cyan
+        printf("\033[1;36m%s", text);
+        break;
+    case '4': // red
+        printf("\033[1;31m%s", text);
+        break;
+    case '5': // purple
+        printf("\033[1;35m%s", text);
+        break;
+    case '6': // yellow
+        printf("\033[1;33m%s", text);
+        break;
+    case '8': // white
+        printf("\033[1;37m%s", text);
+        break;
+    
+    default:
+        printf("%s", text);
+        break;
     }
 
 }
