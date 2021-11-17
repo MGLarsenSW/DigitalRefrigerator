@@ -20,3 +20,5 @@ int HandleScan(int welcome);
 char* strdup(const char* org);
 void GetUserProducts(int *number, struct Product *products);
 char* GetName(int id);
+int GetLine(int id);
+void dprint(char* text, char type);

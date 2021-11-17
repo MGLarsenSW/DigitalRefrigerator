@@ -29,7 +29,9 @@ int HandleScan(int screen) {
 
 void ShowWelcomeScreen() {
 
-    printf("YOU HAVE THE FOLLOWING OPTIONS:\n\n");
+    dprint("----------------------------------------------------\n", 'o');
+    dprint("-", 'o'); dprint("                      MENU                        ", 'b'); dprint("-\n", 'o');
+    dprint("----------------------------------------------------\n\n", 'o');
 
     printf("A:  VIEW YOUR INVENTORY       B:  ADD PRODUCT\n\n");
     printf("C:  EDIT PRODUCT              D:  DELETE PRODUCT\n\n");
@@ -45,7 +47,7 @@ void ShowProductsScreen(int numberOfProducts, struct Product products[]) {
     {
         
         printf("ID: %d \n", products[i].id);
-        printf("%d. %s \n", i, products[i].name);
+        printf("%s \n", products[i].name);
         printf("EXPIRE: %d \n\n", products[i].date);
 
     }
@@ -58,27 +60,38 @@ void ShowProductsScreen(int numberOfProducts, struct Product products[]) {
 // http://www.tutorialspanel.com/delete-a-specific-line-from-a-text-file-using-c/index.htm
 void ShowDeleteScreen(struct Product products[]) {
 
-    int delete, line_number = 0;
+    int id, lineOfProduct = 0, line = 0;
     char copy;
     
-    printf("WHICH ITEM DO YOU WANT TO DELETE (BY LINE)?:\n");
-    scanf(" %d", &delete);
-    delete = abs(delete);
+    printf("WHICH ITEM DO YOU WANT TO DELETE (BY ID)?:\n");
+    scanf(" %d", &id);
 
     FILE* fp = fopen(PATHTOUSERPRODUCTS, "r");
 
-    if(!fp){ printf("CAN'T OPEN '%s'\n", PATHTOUSERPRODUCTS); }
-    else {
+    lineOfProduct = GetLine(id);
+
+    if(!fp) { 
+        printf("ShowDeleteScreen() - CAN'T OPEN '%s'\n", PATHTOUSERPRODUCTS);
+    } else {
+
         FILE* temp = fopen("database/user_products_temp.txt", "w");
+
         copy = getc(fp);
-        if(copy != EOF) { line_number = -1; }
-        while(1)
-        {
-            if(delete != line_number)
-            putc(copy, temp);
+
+        while(copy != EOF) {
+
             copy = getc(fp);
-            if(copy =='\n') line_number++;
-            if(copy == EOF) break;
+
+            if(lineOfProduct != line+1) {
+
+                putc(copy, temp);
+
+            }                
+            if(copy =='\n') {
+                    printf("NEW LINE\n");
+                    line++;
+            }
+
         }
         fclose(temp);
         fclose(fp);
@@ -169,6 +182,43 @@ char* strdup(const char* org)
     return newstr;
 }
 
+int GetLine(int id){
+    
+    FILE* fp = fopen(PATHTOUSERPRODUCTS, "r");
+
+    if(!fp){ printf("GetLine() - CAN'T OPEN '%s'\n", PATHTOUSERPRODUCTS);
+
+    } else {
+
+        char buffer[1024];
+        int row = 0;
+
+        while(fgets(buffer, 1024, fp)) {
+
+            row++;
+
+            if(row == 1) { continue; }
+
+            // Splitting the data
+            char* value = strtok(buffer, ",");
+            
+            int number = atoi(value);
+
+            if(number == id) {
+
+                return row;
+
+            }
+            
+        }
+
+        fclose(fp);
+    }
+
+    return 0;
+
+}
+
 char* GetName(int id) {
 
     FILE* fp = fopen(PATHTOBARCODE, "r");
@@ -257,6 +307,59 @@ void GetUserProducts(int *number, struct Product *products) {
         }
 
         fclose(fp);
+    }
+
+}
+
+void dprint(char* text, char type) {
+
+    switch (type)
+    {
+    case 'b':
+        printf("\033[1;37m%s \033[0m", text);
+        break;
+    case 'i':
+        printf("\033[3;37m%s\033[0m", text);
+        break;
+    case 'u':
+        printf("\033[4;37m%s\033[0m", text);
+        break;
+    case 'm':
+        printf("\033[7;37m%s\033[0m", text);
+        break;
+    case 'o':
+        printf("\033[9;37m%s\033[0m", text);
+        break;
+
+    //colors
+    case '0': // black
+        printf("\033[1;37m%s \033[0m", text);
+        break;
+    case '1': // blue
+        printf("\033[1;34m%s", text);
+        break;
+    case '2': // green
+        printf("\033[1;32m%s", text);
+        break;
+    case '3': // cyan
+        printf("\033[1;36m%s", text);
+        break;
+    case '4': // red
+        printf("\033[1;31m%s", text);
+        break;
+    case '5': // purple
+        printf("\033[1;35m%s", text);
+        break;
+    case '6': // yellow
+        printf("\033[1;33m%s", text);
+        break;
+    case '8': // white
+        printf("\033[1;37m%s", text);
+        break;
+    
+    default:
+        printf("%s", text);
+        break;
     }
 
 }
