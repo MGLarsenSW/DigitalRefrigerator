@@ -60,7 +60,7 @@ void ShowProductsScreen(int numberOfProducts, struct Product products[]) {
 // http://www.tutorialspanel.com/delete-a-specific-line-from-a-text-file-using-c/index.htm
 void ShowDeleteScreen(int numberOfProducts, struct Product products[]) {
 
-    printf("YOU HAVE THE FOLLOWING ITEMS IN YOUR INVENTORY:\n\n");
+    printf("YOU HAVE THE FOLLOWING ITEMS IN YOUR INVENTORY (%d):\n\n", numberOfProducts);
 
     for (int i = 0; i < numberOfProducts; i++)
     {
