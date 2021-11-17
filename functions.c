@@ -31,9 +31,9 @@ int HandleScan(int screen) {
 
 void ShowWelcomeScreen() {
 
-    printf("----------------------------------------------------\n");
-    printf("-                      MENU                        -\n");
-    printf("----------------------------------------------------\n\n");
+    printf("|----------------------------------------------------|\n");
+    printf("|                      MENU                          |\n");
+    printf("|----------------------------------------------------|\n\n");
 
     printf("A:  VIEW YOUR INVENTORY       B:  ADD PRODUCT\n\n");
     printf("C:  EDIT PRODUCT              D:  DELETE PRODUCT\n\n");
