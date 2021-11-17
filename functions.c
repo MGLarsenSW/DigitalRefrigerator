@@ -1,5 +1,7 @@
 void ClearConsole() {
 
+    printf("clean\n");
+
     #ifdef _WIN32
         system("cls");
     #else //In any other OS
@@ -29,9 +31,9 @@ int HandleScan(int screen) {
 
 void ShowWelcomeScreen() {
 
-    dprint("----------------------------------------------------\n", 'o');
-    dprint("-                      MENU                        -\n", 'b');
-    dprint("----------------------------------------------------\n\n", 'o');
+    printf("|----------------------------------------------------|\n");
+    printf("|                      MENU                          |\n");
+    printf("|----------------------------------------------------|\n\n");
 
     printf("A:  VIEW YOUR INVENTORY       B:  ADD PRODUCT\n\n");
     printf("C:  EDIT PRODUCT              D:  DELETE PRODUCT\n\n");
@@ -60,7 +62,7 @@ void ShowProductsScreen(int numberOfProducts, struct Product products[]) {
 // http://www.tutorialspanel.com/delete-a-specific-line-from-a-text-file-using-c/index.htm
 void ShowDeleteScreen(int numberOfProducts, struct Product products[]) {
 
-    printf("YOU HAVE THE FOLLOWING ITEMS IN YOUR INVENTORY:\n\n");
+    printf("YOU HAVE THE FOLLOWING ITEMS IN YOUR INVENTORY (%d):\n\n", numberOfProducts);
 
     for (int i = 0; i < numberOfProducts; i++)
     {
