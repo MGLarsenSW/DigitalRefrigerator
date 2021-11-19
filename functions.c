@@ -153,7 +153,8 @@ void ShowAddScreen() {
         scanf("%*s");
     }
 
-    char* name = strtok(GetName(barcode), "\n");
+    char* name = strtok(GetNameUD(barcode), "\n");
+
 
     ClearConsole();
 
@@ -239,7 +240,7 @@ int GetLine(int id){
 
 }
 
-char* GetName(int id) {
+char* GetNameDB(int id) {
 
     FILE* fp = fopen(PATHTOBARCODE, "r");
 
@@ -272,6 +273,61 @@ char* GetName(int id) {
     return strdup("1");
 
 }
+
+char* GetNameUD(int id) {
+
+    FILE* fp = fopen(PATHTOUSERPRODUCTS, "r");
+
+    if(!fp){ printf("CAN'T OPEN '%s'\n", PATHTOUSERPRODUCTS);
+
+    } else {
+
+    int barcode;
+    int row = 0;
+    char* name;
+    struct Product *products;
+
+        char buffer[1024];
+
+        while(fgets(buffer, 1024, fp)) {
+
+            // Splitting the data
+            char* value = strtok(buffer, ",");
+
+            int column = 0;
+
+            while(value){
+
+                if (column == 1) {
+                     products[row].barcode = atoi(value);
+                }
+
+                if (column == 2) {
+                     products[row].name = strdup(value);
+                }
+                column++;
+            }
+            row++;
+
+            int number = atoi(value);
+
+            if(number == id) {
+
+                value = strtok(NULL, ",");
+
+                return strdup(value);
+
+            }
+
+        }
+
+        fclose(fp);
+    }
+
+    return strdup("1");
+
+}
+
 
 void GetUserProducts(int *number, struct Product *products) {
 
