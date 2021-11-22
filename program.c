@@ -6,6 +6,7 @@
 #include <math.h>
 #include "header.h"
 #include "functions.c"
+#include <limits.h>
 
 int main(void) {
 
@@ -20,6 +21,9 @@ int main(void) {
         GetUserProducts(&numberOfProducts, products);
 
         ClearConsole();
+
+        int imax = INT_MAX;
+        printf("MAX VALUE: %d", imax);
 
         switch (screen) {
 
