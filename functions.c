@@ -43,8 +43,7 @@ void ShowProductsScreen(int numberOfProducts, struct Product products[]) {
 
     printf("YOU HAVE THE FOLLOWING ITEMS IN YOUR INVENTORY (%d):\n\n", numberOfProducts);
 
-    for (int i = 0; i < numberOfProducts; i++)
-    {
+    for (int i = 0; i < numberOfProducts; i++) {
 
         char id[50];
         snprintf(id, sizeof(id), "ID: %d \n", products[i].id);
@@ -59,8 +58,9 @@ void ShowProductsScreen(int numberOfProducts, struct Product products[]) {
         dprint(date, '5');
 
     }
-    if (numberOfProducts == 0){
-        printf("YOU HAVE NOTHING IN THE INVENTORY AT THE MOMENT\n\n");
+    
+    if (numberOfProducts == 0) {
+        printf("YOU HAVE NOTHING IN YOUR INVENTORY AT THE MOMENT\n\n");
     }
     
 }
