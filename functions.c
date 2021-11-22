@@ -29,9 +29,11 @@ int HandleScan(int screen) {
 
 void ShowWelcomeScreen() {
 
-    printf("+----------------------------------------------------+\n");
-    printf("|                        MENU                        |\n");
-    printf("+----------------------------------------------------+\n\n");
+    //printf("+----------------------------------------------------+\n");
+    //printf("|                        MENU                        |\n");
+    //printf("+----------------------------------------------------+\n\n");
+
+    dprint("\n## MENU ##\n\n", '3');
 
     dprint("A:  VIEW YOUR INVENTORY       ",'1'); dprint("B:  ADD PRODUCT\n\n",'2');
     dprint("C:  EDIT PRODUCT              ",'6'); dprint("D:  DELETE PRODUCT\n\n",'4');
@@ -58,7 +60,7 @@ void ShowProductsScreen(int numberOfProducts, struct Product products[]) {
         dprint(date, '5');
 
     }
-    
+
     if (numberOfProducts == 0) {
         printf("YOU HAVE NOTHING IN YOUR INVENTORY AT THE MOMENT\n\n");
     }
