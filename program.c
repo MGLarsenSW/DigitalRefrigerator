@@ -1,12 +1,13 @@
+#include <stdint.h>
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
 #include <math.h>
+#include <inttypes.h>
 #include "header.h"
 #include "functions.c"
-#include <inttypes.h>
 
 int main(void) {
 
