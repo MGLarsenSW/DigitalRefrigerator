@@ -162,7 +162,7 @@ void ShowEditScreen() {
 
 void ShowAddScreen() {
 
-    int64_t id, barcode, time;
+    int64_t id, barcode, time = -1;
     char date[20];
 
     dprint("\nSCAN THE BARCODE ON THE PRODUCT\n\n", '3');
@@ -195,10 +195,14 @@ void ShowAddScreen() {
 
     printf("\nYOU HAVE SCANNED: %s\n", name);
 
-    dprint("\nPLEASE ENTER THE PRODUCTS EXPIRAION DATE (dd-mm-yyyy)\n\n",'3');
-    scanf("%s", date);
+    while(time == -1) {
 
-    time = stringtotime(date);
+        dprint("\nPLEASE ENTER THE PRODUCTS EXPIRAION DATE (dd-mm-yyyy)\n\n",'3');
+        scanf("%s", date);
+
+        time = stringtotime(date);
+        
+    }
 
     id = rand();
 
