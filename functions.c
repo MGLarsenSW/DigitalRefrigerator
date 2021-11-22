@@ -33,11 +33,11 @@ void ShowWelcomeScreen() {
     printf("|                        MENU                        |\n");
     printf("+----------------------------------------------------+\n\n");
 
-    printf("A:  VIEW YOUR INVENTORY       B:  ADD PRODUCT\n\n");
-    printf("C:  EDIT PRODUCT              D:  DELETE PRODUCT\n\n");
-    printf("Q:  EXIT PROGRAM\n\n");
+    dprint("A:  VIEW YOUR INVENTORY       ",'1'); dprint("B:  ADD PRODUCT\n\n",'2');
+    dprint("C:  EDIT PRODUCT              ",'6'); dprint("D:  DELETE PRODUCT\n\n",'4');
+    dprint("Q:  EXIT PROGRAM\n\n", '8');
 
-}
+} 
 
 void ShowProductsScreen(int numberOfProducts, struct Product products[]) {
 
@@ -74,7 +74,7 @@ void ShowDeleteScreen(int numberOfProducts, struct Product products[]) {
 
     }
     if (numberOfProducts == 0){
-        printf("YOU HAVE NOTHING IN THE INVENTORY AT THE MOMENT\n\n");
+        dprint("YOU HAVE NOTHING IN THE INVENTORY AT THE MOMENT\n\n", '4');
     }
     
     printf("ENTER THE PRODUCT YOU WANT TO DELETE (BY ID)?\n");
@@ -135,7 +135,7 @@ void ShowDeleteScreen(int numberOfProducts, struct Product products[]) {
             fclose(temp);
             fclose(fp);
 
-            printf("\nTHE PRODUCT WAS DELETED SUCCESSFULLY!\n\n");
+            dprint("\nTHE PRODUCT WAS DELETED SUCCESSFULLY!\n\n", '2');
 
             remove("database/user_products_temp.txt");
         }
@@ -146,7 +146,7 @@ void ShowDeleteScreen(int numberOfProducts, struct Product products[]) {
 
 void ShowEditScreen() {
 
-    printf("EDIT SCREEN\n\n");
+    dprint("EDIT SCREEN\n\n",'6');
     
 }
 
@@ -155,12 +155,12 @@ void ShowAddScreen() {
     int id, barcode, time;
     char date[20];
 
-    printf("\nSCAN THE BARCODE ON THE PRODUCT\n\n");
+    dprint("\nSCAN THE BARCODE ON THE PRODUCT\n\n", '3');
 
     // Check if user input is int
     while (scanf("%d", &barcode) != 1) {
 
-        printf("\nYOU DID NOT ENTER A VALID BARCODE\n");
+        dprint("\nYOU DID NOT ENTER A VALID BARCODE\n", '4');
 
         scanf("%*s");
     }
@@ -171,7 +171,8 @@ void ShowAddScreen() {
 
     if(atoi(name) == 1) {
 
-        printf("\nTHE PRODUCT IS NOT IN OUR DATABASE.\nPLEASE ENTER THE NAME OF THE PRODUCT.\n\n");
+        dprint("\nTHE PRODUCT IS NOT IN OUR DATABASE.\n",'4');
+        dprint("PLEASE ENTER THE NAME OF THE PRODUCT.\n\n",'3');
         scanf(" %[^\n]%*c", name);
 
         ClearConsole();
@@ -184,7 +185,7 @@ void ShowAddScreen() {
 
     printf("\nYOU HAVE SCANNED: %s\n", name);
 
-    printf("\nPLEASE ENTER THE PRODUCTS EXPIRAION DATE (dd-mm-yyyy)\n\n");
+    dprint("\nPLEASE ENTER THE PRODUCTS EXPIRAION DATE (dd-mm-yyyy)\n\n",'3');
     scanf("%s", date);
 
     time = stringtotime(date);
@@ -193,9 +194,9 @@ void ShowAddScreen() {
 
     fprintf(fp, "%d,%d,%s,%d\n", id, barcode, name, time);
 
-    printf("\nTHE PRODUCT WAS ADDED SUCCESSFULLY!\n\n");
+    dprint("\nTHE PRODUCT WAS ADDED SUCCESSFULLY!\n\n",'2');
 
-    printf("IF YOU WANT TO ADD A NEW PRODUCT, PRESS B\n\n");
+    dprint("IF YOU WANT TO ADD A NEW PRODUCT, PRESS B\n\n",'3');
 
     fclose(fp);
 
@@ -343,28 +344,28 @@ void dprint(char* text, char type) {
     {
     //colors
     case '0': // black
-        printf("\033[1;37m%s \033[0m", text);
+        printf("\033[1;37m%s\033[0m", text);
         break;
     case '1': // blue
-        printf("\033[1;34m%s", text);
+        printf("\033[1;34m%s\033[0m", text);
         break;
     case '2': // green
-        printf("\033[1;32m%s", text);
+        printf("\033[1;32m%s\033[0m", text);
         break;
     case '3': // cyan
-        printf("\033[1;36m%s", text);
+        printf("\033[1;36m%s\033[0m", text);
         break;
     case '4': // red
-        printf("\033[1;31m%s", text);
+        printf("\033[1;31m%s\033[0m", text);
         break;
     case '5': // purple
-        printf("\033[1;35m%s", text);
+        printf("\033[1;35m%s\033[0m", text);
         break;
     case '6': // yellow
-        printf("\033[1;33m%s", text);
+        printf("\033[1;33m%s\033[0m", text);
         break;
     case '8': // white
-        printf("\033[1;37m%s", text);
+        printf("\033[1;37m%s\033[0m", text);
         break;
     
     default:
