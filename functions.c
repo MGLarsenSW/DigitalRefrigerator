@@ -8,7 +8,7 @@ void ClearConsole() {
 
 }
 
-int HandleScan(int screen) {
+int64_t HandleScan(int64_t screen) {
 
     if(screen) {
         printf("ENTER 'Q' TO GO BACK\n\n");
@@ -41,14 +41,14 @@ void ShowWelcomeScreen() {
 
 } 
 
-void ShowProductsScreen(int numberOfProducts, struct Product products[]) {
+void ShowProductsScreen(int64_t numberOfProducts, struct Product products[]) {
 
-    printf("YOU HAVE THE FOLLOWING ITEMS IN YOUR INVENTORY (%d):\n\n", numberOfProducts);
+    printf("YOU HAVE THE FOLLOWING ITEMS IN YOUR INVENTORY (%lld):\n\n", numberOfProducts);
 
-    for (int i = 0; i < numberOfProducts; i++) {
+    for (int64_t i = 0; i < numberOfProducts; i++) {
 
         char id[50];
-        snprintf(id, sizeof(id), "ID: %d \n", products[i].id);
+        snprintf(id, sizeof(id), "ID: %lld \n", products[i].id);
         dprint(id, '3');
 
         char name[50];
@@ -68,17 +68,17 @@ void ShowProductsScreen(int numberOfProducts, struct Product products[]) {
 }
 
 // http://www.tutorialspanel.com/delete-a-specific-line-from-a-text-file-using-c/index.htm
-void ShowDeleteScreen(int numberOfProducts, struct Product products[]) {
+void ShowDeleteScreen(int64_t numberOfProducts, struct Product products[]) {
 
-    int id, lineOfProduct = 0, line = 0;
+    int64_t id, lineOfProduct = 0, line = 0;
     char copy;
 
-    printf("YOU HAVE THE FOLLOWING ITEMS IN YOUR INVENTORY (%d):\n\n", numberOfProducts);
+    printf("YOU HAVE THE FOLLOWING ITEMS IN YOUR INVENTORY (%lld):\n\n", numberOfProducts);
 
-    for (int i = 0; i < numberOfProducts; i++)
+    for (int64_t i = 0; i < numberOfProducts; i++)
     {
         
-        printf("ID: %d \n", products[i].id);
+        printf("ID: %lld \n", products[i].id);
         printf("%s \n", products[i].name);
         printf("EXPIRE: %s \n\n", products[i].date);
 
@@ -90,7 +90,7 @@ void ShowDeleteScreen(int numberOfProducts, struct Product products[]) {
     printf("ENTER THE PRODUCT YOU WANT TO DELETE (BY ID)?\n");
 
     // Check if user input is int
-    while (scanf("%d", &id) != 1) {
+    while (scanf("%lld", &id) != 1) {
 
         printf("\nYOU DID NOT ENTER A VALID ID\n");
 
@@ -162,13 +162,13 @@ void ShowEditScreen() {
 
 void ShowAddScreen() {
 
-    int id, barcode, time;
+    int64_t id, barcode, time;
     char date[20];
 
     dprint("\nSCAN THE BARCODE ON THE PRODUCT\n\n", '3');
 
     // Check if user input is int
-    while (scanf("%d", &barcode) != 1) {
+    while (scanf("%lld", &barcode) != 1) {
 
         dprint("\nYOU DID NOT ENTER A VALID BARCODE\n", '4');
 
@@ -177,15 +177,15 @@ void ShowAddScreen() {
 
     char* name = strtok(GetName(barcode), "\n");
 
-    ClearConsole();
+    //ClearConsole();
 
-    if(atoi(name) == 1) {
+    if(S64(name) == 1) {
 
         dprint("\nTHE PRODUCT IS NOT IN OUR DATABASE.\n",'4');
         dprint("PLEASE ENTER THE NAME OF THE PRODUCT.\n\n",'3');
         scanf(" %[^\n]%*c", name);
 
-        ClearConsole();
+        //ClearConsole();
 
     }
 
@@ -202,7 +202,7 @@ void ShowAddScreen() {
 
     id = rand();
 
-    fprintf(fp, "%d,%d,%s,%d\n", id, barcode, name, time);
+    fprintf(fp, "%lld,%lld,%s,%lld\n", id, barcode, name, time);
 
     dprint("\nTHE PRODUCT WAS ADDED SUCCESSFULLY!\n\n",'2');
 
@@ -230,7 +230,7 @@ char* strdup(const char* org)
 
 }
 
-int GetLine(int id){
+int64_t GetLine(int64_t id){
     
     FILE* fp = fopen(PATHTOUSERPRODUCTS, "r");
 
@@ -239,14 +239,14 @@ int GetLine(int id){
     } else {
 
         char buffer[1024];
-        int row = 0;
+        int64_t row = 0;
 
         while(fgets(buffer, 1024, fp)) {
 
             // Splitting the data
             char* value = strtok(buffer, ",");
             
-            int number = atoi(value);
+            int64_t number = S64(value);
 
             if(number == id) {
 
@@ -265,7 +265,7 @@ int GetLine(int id){
 
 }
 
-char* GetName(int id) {
+char* GetName(int64_t id) {
 
     FILE* fp = fopen(PATHTOBARCODE, "r");
 
@@ -280,7 +280,7 @@ char* GetName(int id) {
             // Splitting the data
             char* value = strtok(buffer, ",");
             
-            int number = atoi(value);
+            int64_t number = S64(value);
 
             if(number == id) {
 
@@ -299,9 +299,9 @@ char* GetName(int id) {
 
 }
 
-void GetUserProducts(int *number, struct Product *products) {
+void GetUserProducts(int64_t *number, struct Product *products) {
 
-    /*for(int i = 0; i < *number; i++) {
+    /*for(int64_t i = 0; i < *number; i++) {
         free(products[i].name);
     }*/
 
@@ -312,23 +312,23 @@ void GetUserProducts(int *number, struct Product *products) {
     } else {
 
         char buffer[1024];
-        int row = 0;
+        int64_t row = 0;
 
         while(fgets(buffer, 1024, fp)) {
 
             // Splitting the data
             char* value = strtok(buffer, ",");
 
-            int column = 0;
+            int64_t column = 0;
             
             while(value){
 
                 if (column == 0) {
-                    products[row].id = atoi(value);
+                    products[row].id = S64(value);
                 }
 
                 if (column == 1) {
-                    products[row].barcode = atoi(value);
+                    products[row].barcode = S64(value);
                 }
 
                 if (column == 2) {
@@ -336,7 +336,7 @@ void GetUserProducts(int *number, struct Product *products) {
                 }
 
                 if (column == 3) {
-                    products[row].date = timetostring(atoi(value));
+                    products[row].date = timetostring(S64(value));
                 }
 
                 *number = row+1;
@@ -391,7 +391,7 @@ void dprint(char* text, char type) {
 
 }
 
-int stringtotime(char* tid) {
+int64_t stringtotime(char* tid) {
 
     time_t result = 0;
    
@@ -407,14 +407,14 @@ int stringtotime(char* tid) {
             return -1;
         }
             
-        return (int)result;
+        return (int64_t)result;
     }
     
     return -1;
 
 }
 
-char* timetostring(int unixtime) {
+char* timetostring(int64_t unixtime) {
 
     time_t     time;
     struct tm  ts;
@@ -427,4 +427,17 @@ char* timetostring(int unixtime) {
 
     return strdup(buf);
 
+}
+
+int64_t S64(const char *s) {
+  int64_t i;
+  char c ;
+  int scanned = sscanf(s, "%lld %c", &i, &c);
+  if (scanned == 1) return i;
+  if (scanned > 1) {
+    // TBD about extra data found
+    return i;
+    }
+  // TBD failed to scan;  
+  return 0;  
 }

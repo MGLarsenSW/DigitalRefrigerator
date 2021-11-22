@@ -6,12 +6,12 @@
 #include <math.h>
 #include "header.h"
 #include "functions.c"
-#include <limits.h>
+#include <inttypes.h>
 
 int main(void) {
 
-    int screen = 0;
-    int numberOfProducts = 0;
+    int64_t screen = 0;
+    int64_t numberOfProducts = 0;
     struct Product products[100];
 
     srand(time(NULL));
@@ -21,9 +21,6 @@ int main(void) {
         GetUserProducts(&numberOfProducts, products);
 
         ClearConsole();
-
-        int imax = INT_MAX;
-        printf("MAX VALUE: %d", imax);
 
         switch (screen) {
 
