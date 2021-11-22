@@ -215,6 +215,7 @@ void ShowAddScreen() {
 // https://stackoverflow.com/questions/10131464/returning-a-char-pointer-in-c
 char* strdup(const char* org)
 {
+   
     if(org == NULL) return NULL;
 
     char* newstr = malloc(strlen(org)+1);
@@ -226,6 +227,7 @@ char* strdup(const char* org)
 
     while(*org) *p++ = *org++; /* copy the string. */
     return newstr;
+
 }
 
 int GetLine(int id){
@@ -299,9 +301,9 @@ char* GetName(int id) {
 
 void GetUserProducts(int *number, struct Product *products) {
 
-    for(int i = 0; i < *number; i++) {
+    /*for(int i = 0; i < *number; i++) {
         free(products[i].name);
-    }
+    }*/
 
     FILE* fp = fopen(PATHTOUSERPRODUCTS, "r");
 
@@ -421,7 +423,7 @@ char* timetostring(int unixtime) {
     time = unixtime;
     
     ts = *localtime(&time);
-    strftime(buf, sizeof(buf), "%a %d-%m-%Y", &ts);
+    strftime(buf, sizeof(buf), "%A %d-%m-%Y ", &ts);
 
     return strdup(buf);
 
