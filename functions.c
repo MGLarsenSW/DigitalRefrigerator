@@ -299,6 +299,10 @@ char* GetName(int id) {
 
 void GetUserProducts(int *number, struct Product *products) {
 
+    for(int i = 0; i < *number; i++) {
+        free(products[i].name);
+    }
+
     FILE* fp = fopen(PATHTOUSERPRODUCTS, "r");
 
     if(!fp){ printf("CAN'T OPEN '%s'\n", PATHTOUSERPRODUCTS);
@@ -385,16 +389,26 @@ void dprint(char* text, char type) {
 
 }
 
-int stringtotime(char* time) {
+int stringtotime(char* tid) {
 
-    struct tm tm;
-    time_t ts = 0;
-    memset(&tm, 0, sizeof(tm));
-
-    strptime(time, "%d-%m-%Y", &tm);
-    ts = mktime(&tm);
-
-    return (int)ts;
+    time_t result = 0;
+   
+    int year = 0, month = 0, day = 0;
+   
+    if (sscanf(tid, "%2d-%2d-%4d", &day, &month, &year) == 3) {
+        struct tm breakdown = {0};
+        breakdown.tm_year = year - 1900; /* years since 1900 */
+        breakdown.tm_mon = month - 1;
+        breakdown.tm_mday = day;
+        
+        if ((result = mktime(&breakdown)) == (time_t)-1) {
+            return -1;
+        }
+            
+        return (int)result;
+    }
+    
+    return -1;
 
 }
 
