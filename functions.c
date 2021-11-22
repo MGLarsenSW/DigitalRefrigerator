@@ -50,7 +50,7 @@ void ShowProductsScreen(int numberOfProducts, struct Product products[]) {
         
         printf("ID: %d \n", products[i].id);
         printf("%s \n", products[i].name);
-        printf("EXPIRE: %d \n\n", products[i].date);
+        printf("EXPIRE: %s \n\n", timetostring(products[i].date));
 
     }
     if (numberOfProducts == 0){
@@ -69,7 +69,7 @@ void ShowDeleteScreen(int numberOfProducts, struct Product products[]) {
         
         printf("ID: %d \n", products[i].id);
         printf("%s \n", products[i].name);
-        printf("EXPIRE: %d \n\n", products[i].date);
+        printf("EXPIRE: %s \n\n", timetostring(products[i].date));
 
     }
     if (numberOfProducts == 0){
@@ -142,7 +142,8 @@ void ShowEditScreen() {
 
 void ShowAddScreen() {
 
-    int id, barcode, date;
+    int id, barcode, time;
+    char date[20];
 
     printf("\nSCAN THE BARCODE ON THE PRODUCT\n\n");
 
@@ -153,8 +154,7 @@ void ShowAddScreen() {
         scanf("%*s");
     }
 
-    char* name = strtok(GetNameUD(barcode), "\n");
-
+    char* name = strtok(GetName(barcode), "\n");
 
     ClearConsole();
 
@@ -173,13 +173,14 @@ void ShowAddScreen() {
 
     printf("\nYOU HAVE SCANNED: %s\n", name);
 
-    printf("\nPLEASE ENTER THE PRODUCTS EXPIRAION DATE\n\n");
-    scanf(" %d", &date);
+    printf("\nPLEASE ENTER THE PRODUCTS EXPIRAION DATE (dd-mm-yyyy)\n\n");
+    scanf("%s", date);
 
-    srand(time(NULL));
+    time = stringtotime(date);
+
     id = rand();
 
-    fprintf(fp, "%d,%d,%s,%d\n", id, barcode, name, date);
+    fprintf(fp, "%d,%d,%s,%d\n", id, barcode, name, time);
 
     printf("\nTHE PRODUCT WAS ADDED SUCCESSFULLY!\n\n");
 
@@ -240,7 +241,7 @@ int GetLine(int id){
 
 }
 
-char* GetNameDB(int id) {
+char* GetName(int id) {
 
     FILE* fp = fopen(PATHTOBARCODE, "r");
 
@@ -273,61 +274,6 @@ char* GetNameDB(int id) {
     return strdup("1");
 
 }
-
-char* GetNameUD(int id) {
-
-    FILE* fp = fopen(PATHTOUSERPRODUCTS, "r");
-
-    if(!fp){ printf("CAN'T OPEN '%s'\n", PATHTOUSERPRODUCTS);
-
-    } else {
-
-    int barcode;
-    int row = 0;
-    char* name;
-    struct Product *products;
-
-        char buffer[1024];
-
-        while(fgets(buffer, 1024, fp)) {
-
-            // Splitting the data
-            char* value = strtok(buffer, ",");
-
-            int column = 0;
-
-            while(value){
-
-                if (column == 1) {
-                     products[row].barcode = atoi(value);
-                }
-
-                if (column == 2) {
-                     products[row].name = strdup(value);
-                }
-                column++;
-            }
-            row++;
-
-            int number = atoi(value);
-
-            if(number == id) {
-
-                value = strtok(NULL, ",");
-
-                return strdup(value);
-
-            }
-
-        }
-
-        fclose(fp);
-    }
-
-    return strdup("1");
-
-}
-
 
 void GetUserProducts(int *number, struct Product *products) {
 
@@ -414,5 +360,33 @@ void dprint(char* text, char type) {
         printf("%s", text);
         break;
     }
+
+}
+
+int stringtotime(char* time) {
+
+    struct tm tm;
+    time_t ts = 0;
+    memset(&tm, 0, sizeof(tm));
+
+    strptime(time, "%d-%m-%Y", &tm);
+    ts = mktime(&tm);
+
+    return (int)ts;
+
+}
+
+char* timetostring(int unixtime) {
+
+    time_t     time;
+    struct tm  ts;
+    char       buf[80];
+
+    time = unixtime;
+    
+    ts = *localtime(&time);
+    strftime(buf, sizeof(buf), "%a %d-%m-%Y", &ts);
+
+    return strdup(buf);
 
 }

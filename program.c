@@ -13,6 +13,8 @@ int main(void) {
     int numberOfProducts = 0;
     struct Product products[100];
 
+    srand(time(NULL));
+
     while(screen != 5) {
 
         GetUserProducts(&numberOfProducts, products);
