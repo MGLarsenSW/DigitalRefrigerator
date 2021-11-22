@@ -45,10 +45,18 @@ void ShowProductsScreen(int numberOfProducts, struct Product products[]) {
 
     for (int i = 0; i < numberOfProducts; i++)
     {
-        
-        printf("ID: %d \n", products[i].id);
-        printf("%s \n", products[i].name);
-        printf("EXPIRE: %s \n\n", timetostring(products[i].date));
+
+        char id[50];
+        snprintf(id, sizeof(id), "ID: %d \n", products[i].id);
+        dprint(id, '3');
+
+        char name[50];
+        snprintf(name, sizeof(name), "%s \n", products[i].name);
+        dprint(name, '4');
+
+        char date[50];
+        snprintf(date, sizeof(date), "EXPIRE: %s \n\n", timetostring(products[i].date));
+        dprint(date, '5');
 
     }
     if (numberOfProducts == 0){
