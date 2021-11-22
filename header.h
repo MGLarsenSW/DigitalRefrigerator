@@ -6,7 +6,7 @@ struct Product
     int id;
     int barcode;
     char* name;
-    int date;
+    char* date;
 };
 
 void HandleScreens();

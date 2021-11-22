@@ -56,7 +56,7 @@ void ShowProductsScreen(int numberOfProducts, struct Product products[]) {
         dprint(name, '4');
 
         char date[50];
-        snprintf(date, sizeof(date), "EXPIRE: %s \n\n", timetostring(products[i].date));
+        snprintf(date, sizeof(date), "EXPIRE: %s \n\n", products[i].date);
         dprint(date, '5');
 
     }
@@ -80,7 +80,7 @@ void ShowDeleteScreen(int numberOfProducts, struct Product products[]) {
         
         printf("ID: %d \n", products[i].id);
         printf("%s \n", products[i].name);
-        printf("EXPIRE: %s \n\n", timetostring(products[i].date));
+        printf("EXPIRE: %s \n\n", products[i].date);
 
     }
     if (numberOfProducts == 0){
@@ -336,7 +336,7 @@ void GetUserProducts(int *number, struct Product *products) {
                 }
 
                 if (column == 3) {
-                    products[row].date = atoi(value);
+                    products[row].date = timetostring(atoi(value));
                 }
 
                 *number = row+1;
@@ -423,7 +423,7 @@ char* timetostring(int unixtime) {
     time = unixtime;
     
     ts = *localtime(&time);
-    strftime(buf, sizeof(buf), "%A %d-%m-%Y ", &ts);
+    strftime(buf, sizeof(buf), "%A %d-%m-%Y", &ts);
 
     return strdup(buf);
 
