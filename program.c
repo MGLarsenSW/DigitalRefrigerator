@@ -17,7 +17,9 @@ int main(void) {
 
     srand(time(NULL));
 
-    while(screen != 5) {
+    printf("time: %lld", stringtotime("5-8-2039"));
+
+    /*while(screen != 5) {
 
         GetUserProducts(&numberOfProducts, products);
 
@@ -48,7 +50,7 @@ int main(void) {
 
         screen = HandleScan(screen);
 
-    }
+    }*/
 
 
 }

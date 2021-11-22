@@ -401,17 +401,19 @@ int64_t stringtotime(char* tid) {
    
     int year = 0, month = 0, day = 0;
    
-    if (sscanf(tid, "%2d-%2d-%4d", &day, &month, &year) == 3) {
+    if (sscanf(tid, "%d-%d-%d", &day, &month, &year) == 3) {
         struct tm breakdown = {0};
         breakdown.tm_year = year - 1900; /* years since 1900 */
         breakdown.tm_mon = month - 1;
         breakdown.tm_mday = day;
+        breakdown.tm_hour = 0;
+        breakdown.tm_min = 0;
         
-        if ((result = mktime(&breakdown)) == (time_t)-1) {
+        if ((result = _mktime64(&breakdown)) == (time_t)-1) {
             return -1;
         }
             
-        return (int64_t)result;
+        return abs((int64_t)result); // hvis år er for stort sætter vi den til at være den størst mulige værdi.
     }
     
     return -1;
