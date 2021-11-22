@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <time.h>
+#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -17,9 +18,7 @@ int main(void) {
 
     srand(time(NULL));
 
-    printf("time: %lld", stringtotime("5-8-2039"));
-
-    /*while(screen != 5) {
+    while(screen != 5) {
 
         GetUserProducts(&numberOfProducts, products);
 
@@ -50,7 +49,7 @@ int main(void) {
 
         screen = HandleScan(screen);
 
-    }*/
+    }
 
 
 }

@@ -43,26 +43,24 @@ void ShowWelcomeScreen() {
 
 void ShowProductsScreen(int64_t numberOfProducts, struct Product products[]) {
 
-    printf("YOU HAVE THE FOLLOWING ITEMS IN YOUR INVENTORY (%lld):\n\n", numberOfProducts);
+    char title[150];
+    snprintf(title, sizeof(title), "YOU HAVE THE FOLLOWING ITEMS IN YOUR INVENTORY (%lld):\n\n", numberOfProducts);
+    dprint(title, '3');
 
     for (int64_t i = 0; i < numberOfProducts; i++) {
 
-        char id[50];
-        snprintf(id, sizeof(id), "ID: %lld \n", products[i].id);
-        dprint(id, '3');
-
         char name[50];
-        snprintf(name, sizeof(name), "%s \n", products[i].name);
-        dprint(name, '4');
+        snprintf(name, sizeof(name), "%s (#%lld) \n", products[i].name, products[i].id);
+        dprint(name, '2');
 
         char date[50];
         snprintf(date, sizeof(date), "EXPIRE: %s \n\n", products[i].date);
-        dprint(date, '5');
+        dprint(date, '4');
 
     }
 
     if (numberOfProducts == 0) {
-        printf("YOU HAVE NOTHING IN YOUR INVENTORY AT THE MOMENT\n\n");
+        dprint("YOU HAVE NOTHING IN YOUR INVENTORY AT THE MOMENT\n\n", '3');
     }
     
 }
@@ -73,84 +71,97 @@ void ShowDeleteScreen(int64_t numberOfProducts, struct Product products[]) {
     int64_t id, lineOfProduct = 0, line = 0;
     char copy;
 
-    printf("YOU HAVE THE FOLLOWING ITEMS IN YOUR INVENTORY (%lld):\n\n", numberOfProducts);
+    char title[150];
+    snprintf(title, sizeof(title), "YOU HAVE THE FOLLOWING ITEMS IN YOUR INVENTORY (%lld):\n\n", numberOfProducts);
+    dprint(title, '3');
 
-    for (int64_t i = 0; i < numberOfProducts; i++)
-    {
-        
-        printf("ID: %lld \n", products[i].id);
-        printf("%s \n", products[i].name);
-        printf("EXPIRE: %s \n\n", products[i].date);
+    for (int64_t i = 0; i < numberOfProducts; i++) {
+
+        char name[50];
+        snprintf(name, sizeof(name), "%s (#%lld) \n", products[i].name, products[i].id);
+        dprint(name, '2');
+
+        char date[50];
+        snprintf(date, sizeof(date), "EXPIRE: %s \n\n", products[i].date);
+        dprint(date, '4');
 
     }
-    if (numberOfProducts == 0){
-        dprint("YOU HAVE NOTHING IN THE INVENTORY AT THE MOMENT\n\n", '4');
-    }
-    
-    printf("ENTER THE PRODUCT YOU WANT TO DELETE (BY ID)?\n");
 
-    // Check if user input is int
-    while (scanf("%lld", &id) != 1) {
+    if (numberOfProducts == 0) {
+        dprint("YOU HAVE NOTHING IN YOUR INVENTORY AT THE MOMENT\n\n", '3');
+    } else {
 
-        printf("\nYOU DID NOT ENTER A VALID ID\n");
+        printf("ENTER THE PRODUCT YOU WANT TO DELETE (BY ID)?\n");
 
-        scanf("%*s");
-    }
+        // Check if user input is int
+        while (scanf("%lld", &id) != 1) {
 
-    lineOfProduct = GetLine(id);
+            printf("\nYOU DID NOT ENTER A VALID ID\n");
 
-    // Check if user input is a valid ID
-    if(lineOfProduct != -1){
+            scanf("%*s");
+        }
 
-        FILE* fp = fopen(PATHTOUSERPRODUCTS, "r");
+        lineOfProduct = GetLine(id);
 
-        if(!fp) {
-            printf("ShowDeleteScreen() - CAN'T OPEN '%s'\n", PATHTOUSERPRODUCTS);
-        } else {
+        // Check if user input is a valid ID
+        if(lineOfProduct != -1){
 
-            FILE* temp = fopen("database/user_products_temp.txt", "w");
+            FILE* fp = fopen(PATHTOUSERPRODUCTS, "r");
 
-            copy = getc(fp);
+            if(!fp) {
 
-            while(copy != EOF) {
+                printf("ShowDeleteScreen() - CAN'T OPEN '%s'\n", PATHTOUSERPRODUCTS);
 
-                if(lineOfProduct != line) {
+            } else {
 
-                    putc(copy, temp);
-
-                }     
-                        
-                if(copy =='\n') {
-                    line++;
-                }
+                FILE* temp = fopen("database/user_products_temp.txt", "w");
 
                 copy = getc(fp);
 
-            }
-            fclose(temp);
-            fclose(fp);
+                while(copy != EOF) {
 
-            temp = fopen("database/user_products_temp.txt", "r");
-            fp = fopen(PATHTOUSERPRODUCTS, "w");
+                    if(lineOfProduct != line) {
 
-            copy = fgetc(temp);
-            while (copy != EOF)
-            {
-                // Write to destination file
-                fputc(copy, fp);
+                        putc(copy, temp);
 
-                // Read next character from source file
+                    }     
+                            
+                    if(copy =='\n') {
+                        line++;
+                    }
+
+                    copy = getc(fp);
+
+                }
+                fclose(temp);
+                fclose(fp);
+
+                temp = fopen("database/user_products_temp.txt", "r");
+                fp = fopen(PATHTOUSERPRODUCTS, "w");
+
                 copy = fgetc(temp);
+                while (copy != EOF)
+                {
+                    // Write to destination file
+                    fputc(copy, fp);
+
+                    // Read next character from source file
+                    copy = fgetc(temp);
+                }
+                fclose(temp);
+                fclose(fp);
+
+                dprint("\nTHE PRODUCT WAS DELETED SUCCESSFULLY!\n\n", '2');
+
+                remove("database/user_products_temp.txt");
             }
-            fclose(temp);
-            fclose(fp);
 
-            dprint("\nTHE PRODUCT WAS DELETED SUCCESSFULLY!\n\n", '2');
+        } else {
 
-            remove("database/user_products_temp.txt");
+            printf("\nID DID NOT EXIST IN '%s'\nTHE PRODUCT WAS NOT DELETED!\n", PATHTOUSERPRODUCTS);
+
         }
-    } else {
-        printf("\nID DID NOT EXIST IN '%s'\nTHE PRODUCT WAS NOT DELETED!\n", PATHTOUSERPRODUCTS);
+
     }
 }
 
@@ -409,14 +420,14 @@ int64_t stringtotime(char* tid) {
         breakdown.tm_hour = 0;
         breakdown.tm_min = 0;
         
-        if ((result = _mktime64(&breakdown)) == (time_t)-1) {
-            return -1;
+        if ((result = mktime(&breakdown)) == (time_t)-1) {
+            return INT_MAX; 
         }
             
-        return abs((int64_t)result); // hvis år er for stort sætter vi den til at være den størst mulige værdi.
+        return (int64_t)result;
     }
     
-    return -1;
+    return -1; // return error (wrong format)
 
 }
 
