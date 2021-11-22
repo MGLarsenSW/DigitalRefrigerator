@@ -1,7 +1,5 @@
 void ClearConsole() {
 
-    printf("clean\n");
-
     #ifdef _WIN32
         system("cls");
     #else //In any other OS
@@ -62,6 +60,9 @@ void ShowProductsScreen(int numberOfProducts, struct Product products[]) {
 // http://www.tutorialspanel.com/delete-a-specific-line-from-a-text-file-using-c/index.htm
 void ShowDeleteScreen(int numberOfProducts, struct Product products[]) {
 
+    int id, lineOfProduct = 0, line = 0;
+    char copy;
+
     printf("YOU HAVE THE FOLLOWING ITEMS IN YOUR INVENTORY (%d):\n\n", numberOfProducts);
 
     for (int i = 0; i < numberOfProducts; i++)
@@ -75,63 +76,72 @@ void ShowDeleteScreen(int numberOfProducts, struct Product products[]) {
     if (numberOfProducts == 0){
         printf("YOU HAVE NOTHING IN THE INVENTORY AT THE MOMENT\n\n");
     }
-
-    int id, lineOfProduct = 0, line = 0;
-    char copy;
     
-    printf("WHICH ITEM DO YOU WANT TO DELETE (BY ID)?:\n");
-    scanf(" %d", &id);
+    printf("ENTER THE PRODUCT YOU WANT TO DELETE (BY ID)?\n");
 
-    FILE* fp = fopen(PATHTOUSERPRODUCTS, "r");
+    // Check if user input is int
+    while (scanf("%d", &id) != 1) {
+
+        printf("\nYOU DID NOT ENTER A VALID ID\n");
+
+        scanf("%*s");
+    }
 
     lineOfProduct = GetLine(id);
 
-    if(!fp) { 
-        printf("ShowDeleteScreen() - CAN'T OPEN '%s'\n", PATHTOUSERPRODUCTS);
-    } else {
+    // Check if user input is a valid ID
+    if(lineOfProduct != -1){
 
-        FILE* temp = fopen("database/user_products_temp.txt", "w");
+        FILE* fp = fopen(PATHTOUSERPRODUCTS, "r");
 
-        copy = getc(fp);
+        if(!fp) {
+            printf("ShowDeleteScreen() - CAN'T OPEN '%s'\n", PATHTOUSERPRODUCTS);
+        } else {
 
-        while(copy != EOF) {
-
-            if(lineOfProduct != line) {
-
-                putc(copy, temp);
-
-            }     
-                       
-            if(copy =='\n') {
-                line++;
-            }
+            FILE* temp = fopen("database/user_products_temp.txt", "w");
 
             copy = getc(fp);
 
-        }
-        fclose(temp);
-        fclose(fp);
+            while(copy != EOF) {
 
-        temp = fopen("database/user_products_temp.txt", "r");
-        fp = fopen(PATHTOUSERPRODUCTS, "w");
+                if(lineOfProduct != line) {
 
-        copy = fgetc(temp);
-        while (copy != EOF)
-        {
-            /* Write to destination file */
-            fputc(copy, fp);
+                    putc(copy, temp);
 
-            /* Read next character from source file */
+                }     
+                        
+                if(copy =='\n') {
+                    line++;
+                }
+
+                copy = getc(fp);
+
+            }
+            fclose(temp);
+            fclose(fp);
+
+            temp = fopen("database/user_products_temp.txt", "r");
+            fp = fopen(PATHTOUSERPRODUCTS, "w");
+
             copy = fgetc(temp);
+            while (copy != EOF)
+            {
+                // Write to destination file
+                fputc(copy, fp);
+
+                // Read next character from source file
+                copy = fgetc(temp);
+            }
+            fclose(temp);
+            fclose(fp);
+
+            printf("\nTHE PRODUCT WAS DELETED SUCCESSFULLY!\n\n");
+
+            remove("database/user_products_temp.txt");
         }
-        fclose(temp);
-        fclose(fp);
-
-        printf("\nTHE PRODUCT WAS DELETED SUCCESSFULLY!\n\n");
-
-        remove("database/user_products_temp.txt");
+    } else {
+        printf("\nID DID NOT EXIST IN '%s'\nTHE PRODUCT WAS NOT DELETED!\n", PATHTOUSERPRODUCTS);
     }
-    
 }
 
 void ShowEditScreen() {
@@ -147,9 +157,10 @@ void ShowAddScreen() {
 
     printf("\nSCAN THE BARCODE ON THE PRODUCT\n\n");
 
+    // Check if user input is int
     while (scanf("%d", &barcode) != 1) {
 
-        printf("\nYOU DID NOT ENTER A VALID BARCODE\n\n");
+        printf("\nYOU DID NOT ENTER A VALID BARCODE\n");
 
         scanf("%*s");
     }
@@ -237,7 +248,7 @@ int GetLine(int id){
         fclose(fp);
     }
 
-    return 0;
+    return -1;
 
 }
 
