@@ -3,7 +3,7 @@ void ShowWelcomeScreen() {
     dprint("\n## MENU ##\n\n", Cyan);
 
     dprint("A:  VIEW YOUR INVENTORY       ", Blue); dprint("B:  ADD PRODUCT\n\n", Green);
-    dprint("C:  EDIT PRODUCT              ", Yellow); dprint("D:  DELETE PRODUCT\n\n", Red);
+    dprint("C:  VIEW FOOD FEED            ", Yellow); dprint("D:  DELETE PRODUCT\n\n", Red);
     dprint("Q:  EXIT PROGRAM\n\n", White);
 
 } 
@@ -91,6 +91,39 @@ void ShowAddScreen() {
     }
 
     AddProductToFile(name, barcode);
+
+}
+
+void ShowFeedScreen(int64_t numberOfFeed, struct Feed feed[]) {
+
+    char title[150];
+    snprintf(title, sizeof(title), "FEED SCREEN: (%lld):\n\n", numberOfFeed);
+    dprint(title, Cyan);
+
+    for (int64_t i = 0; i < numberOfFeed; i++) {
+
+        char name[50];
+        snprintf(name, sizeof(name), "%s \n", feed[i].name);
+        dprint(name, Green);
+
+        char date[50];
+        snprintf(date, sizeof(date), "EXPIRE: %s \n\n", feed[i].date);
+        dprint(date, Red);
+
+        char address[50];
+        snprintf(address, sizeof(address), "%s \n", feed[i].address);
+        dprint(address, Green);
+
+        char comment[50];
+        snprintf(comment, sizeof(comment), "%s \n", feed[i].comment);
+        dprint(comment, Green);
+
+    }
+
+    if (numberOfFeed == 0) {
+        dprint("THERE IS NOTHING IN THE FEED AT THE MOMENT\n\n", '3');
+    }
+
 
 }
 

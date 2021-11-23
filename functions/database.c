@@ -247,3 +247,58 @@ void GetUserProducts(int64_t *number, struct Product *products) {
     }
 
 }
+
+void GetFeed(int64_t *number, struct Feed *feed) {
+
+    /*for(int64_t i = 0; i < *number; i++) {
+        free(products[i].name);
+    }*/
+
+    FILE* fp = fopen(PATH_TO_FOOD_FEED, "r");
+
+    if(!fp){ printf("GetFeed() - CAN'T OPEN '%s'\n", PATH_TO_FOOD_FEED);
+
+    } else {
+
+        char buffer[1024];
+        int64_t row = 0;
+
+        while(fgets(buffer, 1024, fp)) {
+
+            // Splitting the data
+            char* value = strtok(buffer, ",");
+
+            int64_t column = 0;
+
+            while(value){
+
+                if (column == 0) {
+                    feed[row].name = strdup(value);
+                }
+
+                if (column == 1) {
+                    feed[row].date = timetostring(S64(value));
+                }
+
+                if (column == 2) {
+                    feed[row].address = strdup(value);
+                }
+
+                if (column == 3) {
+                    feed[row].comment = strdup(value);
+                }
+
+                *number = row+1;
+
+                value = strtok(NULL, ",");
+                column++;
+            }
+
+            row++;
+
+        }
+
+        fclose(fp);
+    }
+
+}

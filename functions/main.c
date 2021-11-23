@@ -25,17 +25,11 @@ int64_t HandleScan(int64_t screen) {
 
     if(toupper(ch) == 'A') { return StateShowProductsScreen; }
     if(toupper(ch) == 'B') { return StateShowAddScreen; }
-    if(toupper(ch) == 'C') { return StateShowEditScreen; }
+    if(toupper(ch) == 'C') { return StateShowFeedScreen; }
     if(toupper(ch) == 'D') { return StateShowDeleteScreen; }
     if(toupper(ch) == 'Q' && !screen) { return StateExit; }
 
     return 0;
-}
-
-void ShowEditScreen() {
-
-    dprint("EDIT SCREEN\n\n", Yellow);
-    
 }
 
 // https://stackoverflow.com/questions/10131464/returning-a-char-pointer-in-c

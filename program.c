@@ -14,13 +14,17 @@ int main(void) {
 
     int64_t screen = 0;
     int64_t numberOfProducts = 0;
+    int64_t numberOfFeed = 0;
     struct Product products[100];
+    struct Feed feed[100];
 
     srand(time(NULL));
 
     while(screen != StateExit) {
 
         GetUserProducts(&numberOfProducts, products);
+
+        GetFeed(&numberOfFeed, feed);
 
         ClearConsole();
 
@@ -34,8 +38,8 @@ int main(void) {
             ShowAddScreen();
             break;
 
-            case StateShowEditScreen:
-            ShowEditScreen();
+            case StateShowFeedScreen:
+            ShowFeedScreen(numberOfFeed, feed);
             break;
 
             case StateShowDeleteScreen:
