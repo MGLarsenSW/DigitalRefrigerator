@@ -29,6 +29,7 @@ struct Product
     int64_t barcode;
     char* name;
     char* date;
+    char* added;
 };
 
 void ClearConsole();
@@ -48,3 +49,4 @@ void dprint(char* text, char type);
 int64_t stringtotime(char* time);
 char* timetostring(int64_t unixtime);
 int64_t S64(const char *s);
+int64_t GetCurrentTime();

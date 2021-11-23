@@ -92,7 +92,7 @@ int AddProductToFile(char* name, int64_t barcode) {
 
     id = rand();
 
-    fprintf(fp, "%lld,%lld,%s,%lld\n", id, barcode, name, time);
+    fprintf(fp, "%lld,%lld,%s,%lld,%lld\n", id, barcode, name, time, GetCurrentTime());
 
     dprint("\nTHE PRODUCT WAS ADDED SUCCESSFULLY!\n\n", Green);
 
@@ -227,6 +227,10 @@ void GetUserProducts(int64_t *number, struct Product *products) {
 
                 if (column == 3) {
                     products[row].date = timetostring(S64(value));
+                }
+
+                if (column == 4) {
+                    products[row].added = timetostring(S64(value));
                 }
 
                 *number = row+1;

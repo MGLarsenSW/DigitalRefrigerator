@@ -42,10 +42,14 @@ void ShowProductsScreen(int64_t numberOfProducts, struct Product products[]) {
 
         char name[50];
         snprintf(name, sizeof(name), "%s (#%lld) \n", products[i].name, products[i].id);
-        dprint(name, Green);
+        dprint(name, White);
+
+        char added[50];
+        snprintf(added, sizeof(added), "%s - ", products[i].added);
+        dprint(added, Green);
 
         char date[50];
-        snprintf(date, sizeof(date), "EXPIRE: %s \n\n", products[i].date);
+        snprintf(date, sizeof(date), "%s \n\n", products[i].date);
         dprint(date, Red);
 
     }
