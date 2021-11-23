@@ -1,19 +1,24 @@
+#include <stdint.h>
 #include <time.h>
+#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
 #include <math.h>
+#include <inttypes.h>
 #include "header.h"
-#include "functions.c"
+#include "functions/main.c"
 
 int main(void) {
 
-    int screen = 0;
-    int numberOfProducts = 0;
+    int64_t screen = 0;
+    int64_t numberOfProducts = 0;
     struct Product products[100];
 
-    while(screen != 5) {
+    srand(time(NULL));
+
+    while(screen != StateExit) {
 
         GetUserProducts(&numberOfProducts, products);
 
@@ -21,19 +26,19 @@ int main(void) {
 
         switch (screen) {
 
-            case 1:
+            case StateShowProductsScreen:
             ShowProductsScreen(numberOfProducts, products);
             break;
 
-            case 2:
+            case StateShowAddScreen:
             ShowAddScreen();
             break;
 
-            case 3:
+            case StateShowEditScreen:
             ShowEditScreen();
             break;
 
-            case 4:
+            case StateShowDeleteScreen:
             ShowDeleteScreen(numberOfProducts, products);
             break;
 
