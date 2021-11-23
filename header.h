@@ -31,6 +31,7 @@ struct Product
     char* date;
 };
 
+void ClearConsole();
 void HandleScreens();
 void ShowWelcomeScreen();
 void ShowProductsScreen(int64_t number, struct Product products[]);

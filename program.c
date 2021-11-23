@@ -8,7 +8,7 @@
 #include <math.h>
 #include <inttypes.h>
 #include "header.h"
-#include "functions.c"
+#include "functions/main.c"
 
 int main(void) {
 
