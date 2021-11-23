@@ -37,7 +37,7 @@ char* GetName(int64_t id) {
 
     FILE* fp = fopen(PATH_TO_BARCODE_LIST, "r");
 
-    if(!fp){ printf("CAN'T OPEN '%s'\n", PATH_TO_BARCODE_LIST);
+    if(!fp){ printf("GetName() - CAN'T OPEN '%s'\n", PATH_TO_BARCODE_LIST);
 
     } else {
 
@@ -75,7 +75,7 @@ int AddProductToFile(char* name, int64_t barcode) {
     FILE* fp = fopen(PATH_TO_USER_PRODUCTS, "a+");
 
     if(!fp){ 
-        printf("CAN'T OPEN '%s'\n", PATH_TO_USER_PRODUCTS);
+        printf("AddProductToFile() - CAN'T OPEN '%s'\n", PATH_TO_USER_PRODUCTS);
         return -1; 
     }
 
@@ -109,7 +109,7 @@ int SaveBarcode(char* name, int64_t barcode) {
     FILE* fp = fopen(PATH_TO_BARCODE_LIST, "a+");
 
     if(!fp){ 
-        printf("CAN'T OPEN '%s'\n", PATH_TO_USER_PRODUCTS);
+        printf("SaveBarcode() - CAN'T OPEN '%s'\n", PATH_TO_USER_PRODUCTS);
         return -1; 
     }
 
@@ -129,7 +129,7 @@ int DeleteByLine(int lineOfProduct) {
 
     // Check if user input is a valid ID
     if(lineOfProduct == -1) {
-        printf("\nID DID NOT EXIST IN '%s'\nTHE PRODUCT WAS NOT DELETED!\n", PATH_TO_USER_PRODUCTS);
+        printf("\nID DID NOT EXIST IN '%s'\n\n", PATH_TO_USER_PRODUCTS);
         return -1;
     }
 
@@ -137,7 +137,7 @@ int DeleteByLine(int lineOfProduct) {
 
     if(!fp) {
 
-        printf("ShowDeleteScreen() - CAN'T OPEN '%s'\n", PATH_TO_USER_PRODUCTS);
+        printf("DeleteByLine() - CAN'T OPEN '%s'\n", PATH_TO_USER_PRODUCTS);
 
     } else {
 
@@ -197,7 +197,7 @@ void GetUserProducts(int64_t *number, struct Product *products) {
 
     FILE* fp = fopen(PATH_TO_USER_PRODUCTS, "r");
 
-    if(!fp){ printf("CAN'T OPEN '%s'\n", PATH_TO_USER_PRODUCTS);
+    if(!fp){ printf("GetUserProducts() - CAN'T OPEN '%s'\n", PATH_TO_USER_PRODUCTS);
 
     } else {
 

@@ -10,25 +10,27 @@ void ShowWelcomeScreen() {
 
 void ShowDeleteScreen(int64_t numberOfProducts, struct Product products[]) {
 
-    int64_t id;
+    int64_t id, result = -1;
 
     ShowProductsScreen(numberOfProducts, products);
     
     if (numberOfProducts > 0) {
 
-        printf("ENTER THE PRODUCT YOU WANT TO DELETE (BY ID)?\n");
+        printf("PLEASE ENTER THE PRODUCT YOU WANT TO DELETE (BY ID)?\n");
 
         // Check if user input is int
-        while (scanf("%lld", &id) != 1) {
+        while (result == -1) {
 
-            printf("\nYOU DID NOT ENTER A VALID ID\n");
+            if(scanf("%lld", &id) != 1) {
+                printf("\nYOU DID NOT ENTER A VALID ID\n");
 
-            scanf("%*s");
+                scanf("%*s");
+            } else {
+                result = DeleteByLine(GetLine(id));
+            }
+
+            printf("ENTER THE PRODUCT YOU WANT TO DELETE (BY ID)?\n");
         }
-
-        // tjek result. -1 = fejl prøv igen; 1 = succes.
-        int result = DeleteByLine(GetLine(id));
-
     }
 }
 
@@ -55,7 +57,7 @@ void ShowProductsScreen(int64_t numberOfProducts, struct Product products[]) {
     }
 
     if (numberOfProducts == 0) {
-        dprint("YOU HAVE NOTHING IN YOUR INVENTORY AT THE MOMENT\n\n", '3');
+        dprint("YOU HAVE NOTHING IN YOUR INVENTORY AT THE MOMENT\n\n", Cyan);
     }
     
 }
