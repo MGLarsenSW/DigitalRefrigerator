@@ -1,4 +1,4 @@
-# Virtuelt Køleskab
+# Digitalt Køleskab
 
 Aalborg Universitet  
 Software P1 Projekt  
