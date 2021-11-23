@@ -12,7 +12,7 @@ int64_t GetLine(int64_t id){
         while(fgets(buffer, 1024, fp)) {
 
             // Splitting the data
-            char* value = strtok(buffer, ",");
+            char* value = strtok(buffer, ";");
             
             int64_t number = S64(value);
 
@@ -46,13 +46,13 @@ char* GetName(int64_t id) {
         while(fgets(buffer, 1024, fp)) {
 
             // Splitting the data
-            char* value = strtok(buffer, ",");
+            char* value = strtok(buffer, ";");
             
             int64_t number = S64(value);
 
             if(number == id) {
 
-                value = strtok(NULL, ",");
+                value = strtok(NULL, ";");
                 
                 return strdup(value);
 
@@ -207,7 +207,7 @@ void GetUserProducts(int64_t *number, struct Product *products) {
         while(fgets(buffer, 1024, fp)) {
 
             // Splitting the data
-            char* value = strtok(buffer, ",");
+            char* value = strtok(buffer, ";");
 
             int64_t column = 0;
             
@@ -235,7 +235,7 @@ void GetUserProducts(int64_t *number, struct Product *products) {
 
                 *number = row+1;
 
-                value = strtok(NULL, ",");
+                value = strtok(NULL, ";");
                 column++;
             }
 
@@ -266,7 +266,7 @@ void GetFeed(int64_t *number, struct Feed *feed) {
         while(fgets(buffer, 1024, fp)) {
 
             // Splitting the data
-            char* value = strtok(buffer, ",");
+            char* value = strtok(buffer, ";");
 
             int64_t column = 0;
 
@@ -290,7 +290,7 @@ void GetFeed(int64_t *number, struct Feed *feed) {
 
                 *number = row+1;
 
-                value = strtok(NULL, ",");
+                value = strtok(NULL, ";");
                 column++;
             }
 

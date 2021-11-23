@@ -98,27 +98,19 @@ void ShowAddScreen() {
 
 void ShowFeedScreen(int64_t numberOfFeed, struct Feed feed[]) {
 
-    char title[150];
+    char title[50];
     snprintf(title, sizeof(title), "FEED SCREEN: (%lld):\n\n", numberOfFeed);
-    dprint(title, Cyan);
+    dprint(title, White);
 
     for (int64_t i = 0; i < numberOfFeed; i++) {
 
         char name[50];
-        snprintf(name, sizeof(name), "%s \n", feed[i].name);
+        snprintf(name, sizeof(name), "%s) ", feed[i].name);
         dprint(name, Green);
 
-        char date[50];
-        snprintf(date, sizeof(date), "EXPIRE: %s \n\n", feed[i].date);
-        dprint(date, Red);
-
-        char address[50];
-        snprintf(address, sizeof(address), "%s \n", feed[i].address);
-        dprint(address, Green);
-
-        char comment[50];
-        snprintf(comment, sizeof(comment), "%s \n", feed[i].comment);
-        dprint(comment, Green);
+        char comment[500];
+        snprintf(comment, sizeof(comment), "%s \n\nProduktet udløber: %s\nAdressen er %s\n\n", feed[i].comment, feed[i].date, feed[i].address);
+        dprint(comment, Cyan);
 
     }
 
