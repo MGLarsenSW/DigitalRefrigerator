@@ -18,11 +18,11 @@ int64_t HandleScan(int64_t screen) {
 
     scanf(" %c", &ch);
 
-    if(toupper(ch) == 'A') { return 1; }
-    if(toupper(ch) == 'B') { return 2; }
-    if(toupper(ch) == 'C') { return 3; }
-    if(toupper(ch) == 'D') { return 4; }
-    if(toupper(ch) == 'Q' && !screen) { return 5; }
+    if(toupper(ch) == 'A') { return StateShowProductsScreen; }
+    if(toupper(ch) == 'B') { return StateShowAddScreen; }
+    if(toupper(ch) == 'C') { return StateShowEditScreen; }
+    if(toupper(ch) == 'D') { return StateShowDeleteScreen; }
+    if(toupper(ch) == 'Q' && !screen) { return StateExit; }
 
     return 0;
 }
@@ -33,11 +33,11 @@ void ShowWelcomeScreen() {
     //printf("|                        MENU                        |\n");
     //printf("+----------------------------------------------------+\n\n");
 
-    dprint("\n## MENU ##\n\n", '3');
+    dprint("\n## MENU ##\n\n", Cyan);
 
-    dprint("A:  VIEW YOUR INVENTORY       ",'1'); dprint("B:  ADD PRODUCT\n\n",'2');
-    dprint("C:  EDIT PRODUCT              ",'6'); dprint("D:  DELETE PRODUCT\n\n",'4');
-    dprint("Q:  EXIT PROGRAM\n\n", '8');
+    dprint("A:  VIEW YOUR INVENTORY       ", Blue); dprint("B:  ADD PRODUCT\n\n", Green);
+    dprint("C:  EDIT PRODUCT              ", Yellow); dprint("D:  DELETE PRODUCT\n\n", Red);
+    dprint("Q:  EXIT PROGRAM\n\n", White);
 
 } 
 
@@ -45,17 +45,17 @@ void ShowProductsScreen(int64_t numberOfProducts, struct Product products[]) {
 
     char title[150];
     snprintf(title, sizeof(title), "YOU HAVE THE FOLLOWING ITEMS IN YOUR INVENTORY (%lld):\n\n", numberOfProducts);
-    dprint(title, '3');
+    dprint(title, Cyan);
 
     for (int64_t i = 0; i < numberOfProducts; i++) {
 
         char name[50];
         snprintf(name, sizeof(name), "%s (#%lld) \n", products[i].name, products[i].id);
-        dprint(name, '2');
+        dprint(name, Green);
 
         char date[50];
         snprintf(date, sizeof(date), "EXPIRE: %s \n\n", products[i].date);
-        dprint(date, '4');
+        dprint(date, Red);
 
     }
 
@@ -73,17 +73,17 @@ void ShowDeleteScreen(int64_t numberOfProducts, struct Product products[]) {
 
     char title[150];
     snprintf(title, sizeof(title), "YOU HAVE THE FOLLOWING ITEMS IN YOUR INVENTORY (%lld):\n\n", numberOfProducts);
-    dprint(title, '3');
+    dprint(title, Cyan);
 
     for (int64_t i = 0; i < numberOfProducts; i++) {
 
         char name[50];
         snprintf(name, sizeof(name), "%s (#%lld) \n", products[i].name, products[i].id);
-        dprint(name, '2');
+        dprint(name, Green);
 
         char date[50];
         snprintf(date, sizeof(date), "EXPIRE: %s \n\n", products[i].date);
-        dprint(date, '4');
+        dprint(date, Red);
 
     }
 
@@ -106,15 +106,15 @@ void ShowDeleteScreen(int64_t numberOfProducts, struct Product products[]) {
         // Check if user input is a valid ID
         if(lineOfProduct != -1){
 
-            FILE* fp = fopen(PATHTOUSERPRODUCTS, "r");
+            FILE* fp = fopen(PATH_TO_USER_PRODUCTS, "r");
 
             if(!fp) {
 
-                printf("ShowDeleteScreen() - CAN'T OPEN '%s'\n", PATHTOUSERPRODUCTS);
+                printf("ShowDeleteScreen() - CAN'T OPEN '%s'\n", PATH_TO_USER_PRODUCTS);
 
             } else {
 
-                FILE* temp = fopen("database/user_products_temp.txt", "w");
+                FILE* temp = fopen(PATH_TO_TEMP, "w");
 
                 copy = getc(fp);
 
@@ -136,8 +136,8 @@ void ShowDeleteScreen(int64_t numberOfProducts, struct Product products[]) {
                 fclose(temp);
                 fclose(fp);
 
-                temp = fopen("database/user_products_temp.txt", "r");
-                fp = fopen(PATHTOUSERPRODUCTS, "w");
+                temp = fopen(PATH_TO_TEMP, "r");
+                fp = fopen(PATH_TO_USER_PRODUCTS, "w");
 
                 copy = fgetc(temp);
                 while (copy != EOF)
@@ -151,14 +151,14 @@ void ShowDeleteScreen(int64_t numberOfProducts, struct Product products[]) {
                 fclose(temp);
                 fclose(fp);
 
-                dprint("\nTHE PRODUCT WAS DELETED SUCCESSFULLY!\n\n", '2');
+                dprint("\nTHE PRODUCT WAS DELETED SUCCESSFULLY!\n\n", Green);
 
-                remove("database/user_products_temp.txt");
+                remove(PATH_TO_TEMP);
             }
 
         } else {
 
-            printf("\nID DID NOT EXIST IN '%s'\nTHE PRODUCT WAS NOT DELETED!\n", PATHTOUSERPRODUCTS);
+            printf("\nID DID NOT EXIST IN '%s'\nTHE PRODUCT WAS NOT DELETED!\n", PATH_TO_USER_PRODUCTS);
 
         }
 
@@ -167,7 +167,7 @@ void ShowDeleteScreen(int64_t numberOfProducts, struct Product products[]) {
 
 void ShowEditScreen() {
 
-    dprint("EDIT SCREEN\n\n",'6');
+    dprint("EDIT SCREEN\n\n", Yellow);
     
 }
 
@@ -176,12 +176,12 @@ void ShowAddScreen() {
     int64_t id, barcode, time = -1;
     char date[20];
 
-    dprint("\nSCAN THE BARCODE ON THE PRODUCT\n\n", '3');
+    dprint("\nSCAN THE BARCODE ON THE PRODUCT\n\n", Cyan);
 
     // Check if user input is int
     while (scanf("%lld", &barcode) != 1) {
 
-        dprint("\nYOU DID NOT ENTER A VALID BARCODE\n", '4');
+        dprint("\nYOU DID NOT ENTER A VALID BARCODE\n", Red);
 
         scanf("%*s");
     }
@@ -192,36 +192,36 @@ void ShowAddScreen() {
 
     if(S64(name) == 1) {
 
-        dprint("\nTHE PRODUCT IS NOT IN OUR DATABASE.\n",'4');
-        dprint("PLEASE ENTER THE NAME OF THE PRODUCT.\n\n",'3');
+        dprint("\nTHE PRODUCT IS NOT IN OUR DATABASE.\n", Red);
+        dprint("PLEASE ENTER THE NAME OF THE PRODUCT.\n\n", Cyan);
         scanf(" %[^\n]%*c", name);
 
         //ClearConsole();
 
     }
 
-    FILE* fp = fopen(PATHTOUSERPRODUCTS, "a+");
+    FILE* fp = fopen(PATH_TO_USER_PRODUCTS, "a+");
 
-    if(!fp){ printf("CAN'T OPEN '%s'\n", PATHTOUSERPRODUCTS); }
+    if(!fp){ printf("CAN'T OPEN '%s'\n", PATH_TO_USER_PRODUCTS); }
 
     printf("\nYOU HAVE SCANNED: %s\n", name);
 
     while(time == -1) {
 
-        dprint("\nPLEASE ENTER THE PRODUCTS EXPIRAION DATE (dd-mm-yyyy)\n\n",'3');
+        dprint("\nPLEASE ENTER THE PRODUCTS EXPIRAION DATE (dd-mm-yyyy)\n\n", Cyan);
         scanf("%s", date);
 
         time = stringtotime(date);
-        
+
     }
 
     id = rand();
 
     fprintf(fp, "%lld,%lld,%s,%lld\n", id, barcode, name, time);
 
-    dprint("\nTHE PRODUCT WAS ADDED SUCCESSFULLY!\n\n",'2');
+    dprint("\nTHE PRODUCT WAS ADDED SUCCESSFULLY!\n\n", Green);
 
-    dprint("IF YOU WANT TO ADD A NEW PRODUCT, PRESS B\n\n",'3');
+    dprint("IF YOU WANT TO ADD A NEW PRODUCT, PRESS B\n\n", Cyan);
 
     fclose(fp);
 
@@ -247,9 +247,9 @@ char* strdup(const char* org)
 
 int64_t GetLine(int64_t id){
     
-    FILE* fp = fopen(PATHTOUSERPRODUCTS, "r");
+    FILE* fp = fopen(PATH_TO_USER_PRODUCTS, "r");
 
-    if(!fp){ printf("GetLine() - CAN'T OPEN '%s'\n", PATHTOUSERPRODUCTS);
+    if(!fp){ printf("GetLine() - CAN'T OPEN '%s'\n", PATH_TO_USER_PRODUCTS);
 
     } else {
 
@@ -282,9 +282,9 @@ int64_t GetLine(int64_t id){
 
 char* GetName(int64_t id) {
 
-    FILE* fp = fopen(PATHTOBARCODE, "r");
+    FILE* fp = fopen(PATH_TO_BARCODE_LIST, "r");
 
-    if(!fp){ printf("CAN'T OPEN '%s'\n", PATHTOBARCODE);
+    if(!fp){ printf("CAN'T OPEN '%s'\n", PATH_TO_BARCODE_LIST);
 
     } else {
 
@@ -320,9 +320,9 @@ void GetUserProducts(int64_t *number, struct Product *products) {
         free(products[i].name);
     }*/
 
-    FILE* fp = fopen(PATHTOUSERPRODUCTS, "r");
+    FILE* fp = fopen(PATH_TO_USER_PRODUCTS, "r");
 
-    if(!fp){ printf("CAN'T OPEN '%s'\n", PATHTOUSERPRODUCTS);
+    if(!fp){ printf("CAN'T OPEN '%s'\n", PATH_TO_USER_PRODUCTS);
 
     } else {
 
@@ -373,29 +373,29 @@ void dprint(char* text, char type) {
 
     switch (type)
     {
-    //colors
-    case '0': // black
+
+    case Black:
         printf("\033[1;37m%s\033[0m", text);
         break;
-    case '1': // blue
+    case Blue:
         printf("\033[1;34m%s\033[0m", text);
         break;
-    case '2': // green
+    case Green:
         printf("\033[1;32m%s\033[0m", text);
         break;
-    case '3': // cyan
+    case Cyan:
         printf("\033[1;36m%s\033[0m", text);
         break;
-    case '4': // red
+    case Red:
         printf("\033[1;31m%s\033[0m", text);
         break;
-    case '5': // purple
+    case Purple:
         printf("\033[1;35m%s\033[0m", text);
         break;
-    case '6': // yellow
+    case Yellow:
         printf("\033[1;33m%s\033[0m", text);
         break;
-    case '8': // white
+    case White:
         printf("\033[1;37m%s\033[0m", text);
         break;
     
@@ -406,7 +406,7 @@ void dprint(char* text, char type) {
 
 }
 
-int64_t stringtotime(char* tid) {
+int64_t stringtotime(char* tid) { // 2 forskellige fejlkoder | fejl er ugylidigt, sæt tal til det højeste
 
     time_t result = 0;
    

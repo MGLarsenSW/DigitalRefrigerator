@@ -18,7 +18,7 @@ int main(void) {
 
     srand(time(NULL));
 
-    while(screen != 5) {
+    while(screen != StateExit) {
 
         GetUserProducts(&numberOfProducts, products);
 
@@ -26,19 +26,19 @@ int main(void) {
 
         switch (screen) {
 
-            case 1:
+            case StateShowProductsScreen:
             ShowProductsScreen(numberOfProducts, products);
             break;
 
-            case 2:
+            case StateShowAddScreen:
             ShowAddScreen();
             break;
 
-            case 3:
+            case StateShowEditScreen:
             ShowEditScreen();
             break;
 
-            case 4:
+            case StateShowDeleteScreen:
             ShowDeleteScreen(numberOfProducts, products);
             break;
 

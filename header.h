@@ -1,5 +1,27 @@
-#define PATHTOUSERPRODUCTS "database/user_products.txt"
-#define PATHTOBARCODE "database/barcode_list.txt"
+#define PATH_TO_USER_PRODUCTS "database/user_products.txt"
+#define PATH_TO_BARCODE_LIST "database/barcode_list.txt"
+#define PATH_TO_TEMP "database/user_products_temp.txt"
+
+enum State 
+{
+    StateShowProductsScreen = 1, 
+    StateShowAddScreen = 2, 
+    StateShowEditScreen = 3, 
+    StateShowDeleteScreen = 4, 
+    StateExit = 5
+};
+
+enum Color 
+{
+    Black, 
+    Blue, 
+    Green, 
+    Cyan, 
+    Red, 
+    Purple, 
+    Yellow, 
+    White
+};
 
 struct Product
 {
