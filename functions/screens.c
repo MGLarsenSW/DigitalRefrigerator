@@ -42,7 +42,7 @@ void ShowProductsScreen(int64_t numberOfProducts, struct Product products[]) {
 
     for (int64_t i = 0; i < numberOfProducts; i++) {
 
-        char name[50];
+        char name[100];
         snprintf(name, sizeof(name), "%s (#%lld) \n", products[i].name, products[i].id);
         dprint(name, White);
 

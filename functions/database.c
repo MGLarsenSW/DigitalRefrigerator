@@ -92,7 +92,7 @@ int AddProductToFile(char* name, int64_t barcode) {
 
     id = rand();
 
-    fprintf(fp, "%lld,%lld,%s,%lld,%lld\n", id, barcode, name, time, GetCurrentTime());
+    fprintf(fp, "%lld;%lld;%s;%lld;%lld\n", id, barcode, name, time, GetCurrentTime());
 
     dprint("\nTHE PRODUCT WAS ADDED SUCCESSFULLY!\n\n", Green);
 
