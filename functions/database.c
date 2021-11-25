@@ -12,7 +12,7 @@ int64_t GetLine(int64_t id){
         while(fgets(buffer, 1024, fp)) {
 
             // Splitting the data
-            char* value = strtok(buffer, ",");
+            char* value = strtok(buffer, ";");
             
             int64_t number = S64(value);
 
@@ -37,7 +37,7 @@ char* GetName(int64_t id) {
 
     FILE* fp = fopen(PATH_TO_BARCODE_LIST, "r");
 
-    if(!fp){ printf("CAN'T OPEN '%s'\n", PATH_TO_BARCODE_LIST);
+    if(!fp){ printf("GetName() - CAN'T OPEN '%s'\n", PATH_TO_BARCODE_LIST);
 
     } else {
 
@@ -46,13 +46,13 @@ char* GetName(int64_t id) {
         while(fgets(buffer, 1024, fp)) {
 
             // Splitting the data
-            char* value = strtok(buffer, ",");
+            char* value = strtok(buffer, ";");
             
             int64_t number = S64(value);
 
             if(number == id) {
 
-                value = strtok(NULL, ",");
+                value = strtok(NULL, ";");
                 
                 return strdup(value);
 
@@ -75,7 +75,7 @@ int AddProductToFile(char* name, int64_t barcode) {
     FILE* fp = fopen(PATH_TO_USER_PRODUCTS, "a+");
 
     if(!fp){ 
-        printf("CAN'T OPEN '%s'\n", PATH_TO_USER_PRODUCTS);
+        printf("AddProductToFile() - CAN'T OPEN '%s'\n", PATH_TO_USER_PRODUCTS);
         return -1; 
     }
 
@@ -92,7 +92,7 @@ int AddProductToFile(char* name, int64_t barcode) {
 
     id = rand();
 
-    fprintf(fp, "%lld,%lld,%s,%lld\n", id, barcode, name, time);
+    fprintf(fp, "%lld;%lld;%s;%lld;%lld\n", id, barcode, name, time, GetCurrentTime());
 
     dprint("\nTHE PRODUCT WAS ADDED SUCCESSFULLY!\n\n", Green);
 
@@ -109,7 +109,7 @@ int SaveBarcode(char* name, int64_t barcode) {
     FILE* fp = fopen(PATH_TO_BARCODE_LIST, "a+");
 
     if(!fp){ 
-        printf("CAN'T OPEN '%s'\n", PATH_TO_USER_PRODUCTS);
+        printf("SaveBarcode() - CAN'T OPEN '%s'\n", PATH_TO_USER_PRODUCTS);
         return -1; 
     }
 
@@ -129,7 +129,7 @@ int DeleteByLine(int lineOfProduct) {
 
     // Check if user input is a valid ID
     if(lineOfProduct == -1) {
-        printf("\nID DID NOT EXIST IN '%s'\nTHE PRODUCT WAS NOT DELETED!\n", PATH_TO_USER_PRODUCTS);
+        printf("\nID DID NOT EXIST IN '%s'\n\n", PATH_TO_USER_PRODUCTS);
         return -1;
     }
 
@@ -137,7 +137,7 @@ int DeleteByLine(int lineOfProduct) {
 
     if(!fp) {
 
-        printf("ShowDeleteScreen() - CAN'T OPEN '%s'\n", PATH_TO_USER_PRODUCTS);
+        printf("DeleteByLine() - CAN'T OPEN '%s'\n", PATH_TO_USER_PRODUCTS);
 
     } else {
 
@@ -197,7 +197,7 @@ void GetUserProducts(int64_t *number, struct Product *products) {
 
     FILE* fp = fopen(PATH_TO_USER_PRODUCTS, "r");
 
-    if(!fp){ printf("CAN'T OPEN '%s'\n", PATH_TO_USER_PRODUCTS);
+    if(!fp){ printf("GetUserProducts() - CAN'T OPEN '%s'\n", PATH_TO_USER_PRODUCTS);
 
     } else {
 
@@ -207,7 +207,7 @@ void GetUserProducts(int64_t *number, struct Product *products) {
         while(fgets(buffer, 1024, fp)) {
 
             // Splitting the data
-            char* value = strtok(buffer, ",");
+            char* value = strtok(buffer, ";");
 
             int64_t column = 0;
             
@@ -229,14 +229,73 @@ void GetUserProducts(int64_t *number, struct Product *products) {
                     products[row].date = timetostring(S64(value));
                 }
 
+                if (column == 4) {
+                    products[row].added = timetostring(S64(value));
+                }
+
                 *number = row+1;
 
-                value = strtok(NULL, ",");
+                value = strtok(NULL, ";");
                 column++;
             }
 
             row++;
             
+        }
+
+        fclose(fp);
+    }
+
+}
+
+void GetFeed(int64_t *number, struct Feed *feed) {
+
+    /*for(int64_t i = 0; i < *number; i++) {
+        free(products[i].name);
+    }*/
+
+    FILE* fp = fopen(PATH_TO_FOOD_FEED, "r");
+
+    if(!fp){ printf("GetFeed() - CAN'T OPEN '%s'\n", PATH_TO_FOOD_FEED);
+
+    } else {
+
+        char buffer[1024];
+        int64_t row = 0;
+
+        while(fgets(buffer, 1024, fp)) {
+
+            // Splitting the data
+            char* value = strtok(buffer, ";");
+
+            int64_t column = 0;
+
+            while(value){
+
+                if (column == 0) {
+                    feed[row].name = strdup(value);
+                }
+
+                if (column == 1) {
+                    feed[row].date = timetostring(S64(value));
+                }
+
+                if (column == 2) {
+                    feed[row].address = strdup(value);
+                }
+
+                if (column == 3) {
+                    feed[row].comment = strdup(value);
+                }
+
+                *number = row+1;
+
+                value = strtok(NULL, ";");
+                column++;
+            }
+
+            row++;
+
         }
 
         fclose(fp);

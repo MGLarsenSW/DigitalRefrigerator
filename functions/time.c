@@ -1,3 +1,9 @@
+int64_t GetCurrentTime() {
+
+    return (int64_t)time(NULL);
+
+}
+
 int64_t stringtotime(char* tid) { // 2 forskellige fejlkoder | fejl er ugylidigt, sæt tal til det højeste
 
     time_t result = 0;
@@ -32,7 +38,7 @@ char* timetostring(int64_t unixtime) {
     time = unixtime;
     
     ts = *localtime(&time);
-    strftime(buf, sizeof(buf), "%A %d-%m-%Y", &ts);
+    strftime(buf, sizeof(buf), "%a %d-%m-%Y", &ts);
 
     return strdup(buf);
 
