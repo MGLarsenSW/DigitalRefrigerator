@@ -191,6 +191,8 @@ int DeleteByLine(int lineOfProduct) {
 
 void GetUserProducts(int64_t *number, struct Product *products) {
 
+    *number = 0;
+
     /*for(int64_t i = 0; i < *number; i++) {
         free(products[i].name);
     }*/
