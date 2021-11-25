@@ -29,7 +29,9 @@ void ShowDeleteScreen(int64_t numberOfProducts, struct Product products[]) {
                 result = DeleteByLine(GetLine(id));
             }
 
-            printf("ENTER THE PRODUCT YOU WANT TO DELETE (BY ID)?\n");
+            if(!result) {
+                printf("ENTER THE PRODUCT YOU WANT TO DELETE (BY ID)?\n");
+            }
         }
     }
 }
@@ -43,7 +45,7 @@ void ShowProductsScreen(int64_t numberOfProducts, struct Product products[]) {
     for (int64_t i = 0; i < numberOfProducts; i++) {
 
         char name[100];
-        snprintf(name, sizeof(name), "%s (#%lld) \n", products[i].name, products[i].id);
+        snprintf(name, sizeof(name), "%s (%lld) \n", products[i].name, products[i].id);
         dprint(name, White);
 
         char added[50];
