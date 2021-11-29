@@ -193,10 +193,6 @@ void GetUserProducts(int64_t *number, struct Product *products) {
 
     *number = 0;
 
-    /*for(int64_t i = 0; i < *number; i++) {
-        free(products[i].name);
-    }*/
-
     FILE* fp = fopen(PATH_TO_USER_PRODUCTS, "r");
 
     if(!fp){ printf("GetUserProducts() - CAN'T OPEN '%s'\n", PATH_TO_USER_PRODUCTS);
@@ -251,10 +247,6 @@ void GetUserProducts(int64_t *number, struct Product *products) {
 }
 
 void GetFeed(int64_t *number, struct Feed *feed) {
-
-    /*for(int64_t i = 0; i < *number; i++) {
-        free(products[i].name);
-    }*/
 
     FILE* fp = fopen(PATH_TO_FOOD_FEED, "r");
 
