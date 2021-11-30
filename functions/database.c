@@ -239,7 +239,7 @@ void GetFeed(int64_t *number, struct Feed *feed) {
             // NAME, ADDRESS og COMMENT bliver alle smidt ind i variablen name.
             // Der skal laves så den FREE'ER variablerne igen.
 
-            sscanf(buffer, "%lld;%lld;%[^\n]%*c;%[^\n]%*c;%[^\n]%*c", &id, &date, name, address, comment);
+            sscanf(buffer, "%lld;%lld;%[^;]%*c;%[^;]%*c;%[^\n]%*c", &id, &date, name, address, comment);
 
             //printf("id: %lld, date: %lld, name: %s, address: %s, comment: %s", id, date, name, address, comment);
 
