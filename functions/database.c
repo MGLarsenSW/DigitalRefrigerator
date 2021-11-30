@@ -37,33 +37,31 @@ char* GetName(int64_t id) {
 
     FILE* fp = fopen(PATH_TO_BARCODE_LIST, "r");
 
-    if(!fp){ printf("GetName() - CAN'T OPEN '%s'\n", PATH_TO_BARCODE_LIST);
+    if(!fp){
+        
+        printf("GetName() - CAN'T OPEN '%s'\n", PATH_TO_BARCODE_LIST);
 
     } else {
 
         char buffer[1024];
+        int64_t barcode;
+        char* name = (char*) malloc(20);
 
         while(fgets(buffer, 1024, fp)) {
 
-            // Splitting the data
-            char* value = strtok(buffer, ";");
-            
-            int64_t number = S64(value);
+            sscanf(buffer, "%lld;%[^\n]%*c", &barcode, name);
 
-            if(number == id) {
-
-                value = strtok(NULL, ";");
-                
-                return strdup(value);
-
+            if(barcode == id) {
+                return name;
             }
             
         }
 
         fclose(fp);
+        free(name);
     }
 
-    return strdup("1");
+    return "1";
 
 }
 
@@ -92,7 +90,7 @@ int AddProductToFile(char* name, int64_t barcode) {
 
     id = rand();
 
-    fprintf(fp, "%lld;%lld;%s;%lld;%lld\n", id, barcode, name, time, GetCurrentTime());
+    fprintf(fp, "%lld;%lld;%lld;%lld\n", id, barcode, time, GetCurrentTime());
 
     dprint("\nTHE PRODUCT WAS ADDED SUCCESSFULLY!\n\n", Green);
 
@@ -113,7 +111,7 @@ int SaveBarcode(char* name, int64_t barcode) {
         return -1; 
     }
 
-    fprintf(fp, "%lld,%s\n", barcode, name);
+    fprintf(fp, "%lld;%s\n", barcode, name);
 
     fclose(fp);
 
@@ -170,10 +168,8 @@ int DeleteByLine(int lineOfProduct) {
         copy = fgetc(temp);
         while (copy != EOF) {
             
-            // Write to destination file
             fputc(copy, fp);
             
-            // Read next character from source file
             copy = fgetc(temp);
         }
          
@@ -195,7 +191,7 @@ void GetUserProducts(int64_t *number, struct Product *products) {
 
     FILE* fp = fopen(PATH_TO_USER_PRODUCTS, "r");
 
-    if(!fp){ printf("GetUserProducts() - CAN'T OPEN '%s'\n", PATH_TO_USER_PRODUCTS);
+    if(!fp) { printf("GetUserProducts() - CAN'T OPEN '%s'\n", PATH_TO_USER_PRODUCTS);
 
     } else {
 
@@ -213,22 +209,12 @@ void GetUserProducts(int64_t *number, struct Product *products) {
 
                 if (column == 0) {
                     products[row].id = S64(value);
-                }
-
-                if (column == 1) {
+                } else if (column == 1) {
                     products[row].barcode = S64(value);
-                }
-
-                if (column == 2) {
-                    products[row].name = strdup(value);
-                }
-
-                if (column == 3) {
-                    products[row].date = timetostring(S64(value));
-                }
-
-                if (column == 4) {
-                    products[row].added = timetostring(S64(value));
+                } else if (column == 2) {
+                    products[row].date = S64(value);
+                } else if (column == 3) {
+                    products[row].added = S64(value);
                 }
 
                 *number = row+1;
@@ -268,17 +254,11 @@ void GetFeed(int64_t *number, struct Feed *feed) {
 
                 if (column == 0) {
                     feed[row].name = strdup(value);
-                }
-
-                if (column == 1) {
+                } else if (column == 1) {
                     feed[row].date = timetostring(S64(value));
-                }
-
-                if (column == 2) {
+                } else if (column == 2) {
                     feed[row].address = strdup(value);
-                }
-
-                if (column == 3) {
+                } else if (column == 3) {
                     feed[row].comment = strdup(value);
                 }
 

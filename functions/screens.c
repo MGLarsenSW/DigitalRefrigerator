@@ -44,16 +44,20 @@ void ShowProductsScreen(int64_t numberOfProducts, struct Product products[]) {
 
     for (int64_t i = 0; i < numberOfProducts; i++) {
 
+        char* getname = GetName(products[i].barcode);
+
         char name[100];
-        snprintf(name, sizeof(name), "%s (%lld) \n", products[i].name, products[i].id);
+        snprintf(name, sizeof(name), "%s (%lld) \n", getname, products[i].id);
         dprint(name, White);
 
+        free(getname);
+
         char added[50];
-        snprintf(added, sizeof(added), "%s - ", products[i].added);
+        snprintf(added, sizeof(added), "%s - ", timetostring(products[i].added));
         dprint(added, Green);
 
         char date[50];
-        snprintf(date, sizeof(date), "%s \n\n", products[i].date);
+        snprintf(date, sizeof(date), "%s \n\n", timetostring(products[i].date));
         dprint(date, Red);
 
     }
@@ -78,11 +82,11 @@ void ShowAddScreen() {
         scanf("%*s");
     }
 
-    char* name = strtok(GetName(barcode), "\n");
+    char* name;
 
     ClearConsole();
 
-    if(S64(name) == 1) {
+    if(S64(GetName(barcode)) == 1) {
 
         dprint("\nTHE PRODUCT IS NOT IN OUR DATABASE.\n", Red);
         dprint("PLEASE ENTER THE NAME OF THE PRODUCT.\n\n", Cyan);
@@ -91,6 +95,10 @@ void ShowAddScreen() {
         SaveBarcode(name, barcode);
 
         ClearConsole();
+
+    } else {
+
+        name = GetName(barcode);
 
     }
 

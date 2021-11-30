@@ -52,11 +52,10 @@ char* strdup(const char* org)
 
 int64_t S64(const char *s) {
   int64_t i;
-  char c ;
-  int scanned = sscanf(s, "%lld %c", &i, &c);
+
+  int scanned = sscanf(s, "%lld", &i);
 
   if (scanned >= 1) return i;
 
-  // TBD failed to scan;  
   return 0;  
 }

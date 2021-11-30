@@ -28,9 +28,8 @@ struct Product
 {
     int64_t id;
     int64_t barcode;
-    char* name;
-    char* date;
-    char* added;
+    int64_t date;
+    int64_t added;
 };
 
 struct Feed
