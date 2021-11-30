@@ -8,18 +8,14 @@ int64_t GetLine(int64_t id){
 
         char buffer[1024];
         int64_t row = 0;
+        int64_t product_id;
 
         while(fgets(buffer, 1024, fp)) {
 
-            // Splitting the data
-            char* value = strtok(buffer, ";");
-            
-            int64_t number = S64(value);
+            sscanf(buffer, "%lld", &product_id);
 
-            if(number == id) {
-
+            if(product_id == id) {
                 return row;
-
             }
 
             row++;
@@ -200,30 +196,17 @@ void GetUserProducts(int64_t *number, struct Product *products) {
 
         while(fgets(buffer, 1024, fp)) {
 
-            // Splitting the data
-            char* value = strtok(buffer, ";");
+            int64_t id, barcode, date, added;
 
-            int64_t column = 0;
-            
-            while(value){
+            sscanf(buffer, "%lld;%lld;%lld;%lld", &id, &barcode, &date, &added);
 
-                if (column == 0) {
-                    products[row].id = S64(value);
-                } else if (column == 1) {
-                    products[row].barcode = S64(value);
-                } else if (column == 2) {
-                    products[row].date = S64(value);
-                } else if (column == 3) {
-                    products[row].added = S64(value);
-                }
-
-                *number = row+1;
-
-                value = strtok(NULL, ";");
-                column++;
-            }
+            products[row].id = id;
+            products[row].barcode = barcode;
+            products[row].date = date;
+            products[row].added = added;
 
             row++;
+            *number = row;
             
         }
 
@@ -233,6 +216,8 @@ void GetUserProducts(int64_t *number, struct Product *products) {
 }
 
 void GetFeed(int64_t *number, struct Feed *feed) {
+
+    *number = 0;
 
     FILE* fp = fopen(PATH_TO_FOOD_FEED, "r");
 
@@ -245,31 +230,27 @@ void GetFeed(int64_t *number, struct Feed *feed) {
 
         while(fgets(buffer, 1024, fp)) {
 
-            // Splitting the data
-            char* value = strtok(buffer, ";");
+            int64_t id, date;
+            char* name = (char*) malloc(20);
+            char* address = (char*) malloc(50);
+            char* comment = (char*) malloc(50);
 
-            int64_t column = 0;
+            // ID og DATO bliver scannet korrekt.
+            // NAME, ADDRESS og COMMENT bliver alle smidt ind i variablen name.
+            // Der skal laves så den FREE'ER variablerne igen.
 
-            while(value){
+            sscanf(buffer, "%lld;%lld;%[^\n]%*c;%[^\n]%*c;%[^\n]%*c", &id, &date, name, address, comment);
 
-                if (column == 0) {
-                    feed[row].name = strdup(value);
-                } else if (column == 1) {
-                    feed[row].date = timetostring(S64(value));
-                } else if (column == 2) {
-                    feed[row].address = strdup(value);
-                } else if (column == 3) {
-                    feed[row].comment = strdup(value);
-                }
+            //printf("id: %lld, date: %lld, name: %s, address: %s, comment: %s", id, date, name, address, comment);
 
-                *number = row+1;
-
-                value = strtok(NULL, ";");
-                column++;
-            }
+            feed[row].name = name;
+            feed[row].date = timetostring(date);
+            feed[row].address = address;
+            feed[row].comment = comment;
 
             row++;
-
+            *number = row;
+            
         }
 
         fclose(fp);
