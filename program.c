@@ -10,7 +10,8 @@
 #include "header.h"
 #include "functions/main.c"
 
-int main(void) {
+int main(void)
+{
 
     int64_t screen = 0;
     int64_t numberOfProducts = 0;
@@ -20,7 +21,8 @@ int main(void) {
 
     srand(time(NULL));
 
-    while(screen != StateExit) {
+    while (screen != StateExit)
+    {
 
         GetUserProducts(&numberOfProducts, products);
 
@@ -28,32 +30,30 @@ int main(void) {
 
         ClearConsole();
 
-        switch (screen) {
+        switch (screen)
+        {
 
-            case StateShowProductsScreen:
+        case StateShowProductsScreen:
             ShowProductsScreen(numberOfProducts, products);
             break;
 
-            case StateShowAddScreen:
+        case StateShowAddScreen:
             ShowAddScreen();
             break;
 
-            case StateShowFeedScreen:
+        case StateShowFeedScreen:
             ShowFeedScreen(numberOfFeed, feed);
             break;
 
-            case StateShowDeleteScreen:
+        case StateShowDeleteScreen:
             ShowDeleteScreen(numberOfProducts, products);
             break;
 
-            default:
-            ShowWelcomeScreen(); 
+        default:
+            ShowWelcomeScreen();
             break;
         }
 
         screen = HandleScan(screen);
-
     }
-
-
 }

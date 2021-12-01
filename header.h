@@ -3,24 +3,24 @@
 #define PATH_TO_TEMP "database/user_products_temp.txt"
 #define PATH_TO_FOOD_FEED "database/food_feed.txt"
 
-enum State 
+enum State
 {
-    StateShowProductsScreen = 1, 
-    StateShowAddScreen = 2, 
+    StateShowProductsScreen = 1,
+    StateShowAddScreen = 2,
     StateShowFeedScreen = 3,
-    StateShowDeleteScreen = 4, 
+    StateShowDeleteScreen = 4,
     StateExit = 5
 };
 
-enum Color 
+enum Color
 {
-    Black, 
-    Blue, 
-    Green, 
-    Cyan, 
-    Red, 
-    Purple, 
-    Yellow, 
+    Black,
+    Blue,
+    Green,
+    Cyan,
+    Red,
+    Purple,
+    Yellow,
     White
 };
 
@@ -34,10 +34,11 @@ struct Product
 
 struct Feed
 {
-    char* name;
-    char* date;
-    char* address;
-    char* comment;
+    int id;
+    int date;
+    char name[20];
+    char address[50];
+    char comment[50];
 };
 
 void ClearConsole();
@@ -49,13 +50,13 @@ void ShowFeedScreen(int64_t numberOfFeed, struct Feed feed[]);
 void ShowAddScreen();
 void AddProduct();
 int64_t HandleScan(int64_t welcome);
-char* strdup(const char* org);
+char *strdup(const char *org);
 void GetUserProducts(int64_t *number, struct Product *products);
 void GetFeed(int64_t *number, struct Feed *feed);
-char* GetName(int64_t id);
+char *GetName(int64_t id);
 int64_t GetLine(int64_t id);
-void dprint(char* text, char type);
-int64_t stringtotime(char* time);
-char* timetostring(int64_t unixtime);
+void dprint(char *text, char type);
+int64_t stringtotime(char *time);
+char *timetostring(int64_t unixtime);
 int64_t S64(const char *s);
 int64_t GetCurrentTime();
