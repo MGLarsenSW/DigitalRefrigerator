@@ -153,24 +153,14 @@ int DeleteByLine(int lineOfProduct)
         fclose(temp);
         fclose(fp);
 
-        temp = fopen(PATH_TO_TEMP, "r");
-        fp = fopen(PATH_TO_USER_PRODUCTS, "w");
-
-        copy = fgetc(temp);
-        while (copy != EOF)
-        {
-
-            fputc(copy, fp);
-
-            copy = fgetc(temp);
+        //Delete old user_products.txt and rename temp
+        remove(PATH_TO_USER_PRODUCTS);
+        if(rename(PATH_TO_TEMP, PATH_TO_USER_PRODUCTS)){
+            printf("DeleteByLine() - COULD NOT RENAME '%s'\n", PATH_TO_USER_PRODUCTS);
+            return -1;
         }
 
-        fclose(temp);
-        fclose(fp);
-
         dprint("\nTHE PRODUCT WAS DELETED SUCCESSFULLY!\n\n", Green);
-
-        remove(PATH_TO_TEMP);
     }
 
     return 1;
