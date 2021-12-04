@@ -11,9 +11,8 @@ int64_t GetLine(int64_t id)
         {
 
             if (product_id == id)
-            {
                 return i;
-            }
+
             i++;
         }
 
@@ -37,9 +36,7 @@ char *GetName(int64_t id)
         {
 
             if (product_id == id)
-            {
                 return name;
-            }
         }
 
         fclose(fp);
@@ -122,10 +119,8 @@ int DeleteByLine(int lineOfProduct)
     FILE *fp = fopen(PATH_TO_USER_PRODUCTS, "r");
 
     if (!fp)
-    {
-
         printf("DeleteByLine() - CAN'T OPEN '%s'\n", PATH_TO_USER_PRODUCTS);
-    }
+
     else
     {
 
@@ -137,15 +132,10 @@ int DeleteByLine(int lineOfProduct)
         {
 
             if (lineOfProduct != line)
-            {
-
                 putc(copy, temp);
-            }
 
             if (copy == '\n')
-            {
                 line++;
-            }
 
             copy = getc(fp);
         }
@@ -155,7 +145,8 @@ int DeleteByLine(int lineOfProduct)
 
         //Delete old user_products.txt and rename temp
         remove(PATH_TO_USER_PRODUCTS);
-        if(rename(PATH_TO_TEMP, PATH_TO_USER_PRODUCTS)){
+        if (rename(PATH_TO_TEMP, PATH_TO_USER_PRODUCTS))
+        {
             printf("DeleteByLine() - COULD NOT RENAME '%s'\n", PATH_TO_USER_PRODUCTS);
             return -1;
         }

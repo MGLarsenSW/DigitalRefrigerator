@@ -1,6 +1,5 @@
 void ShowWelcomeScreen()
 {
-
     dprint("\n## MENU ##\n\n", Cyan);
 
     dprint("A:  VIEW YOUR INVENTORY       ", Blue);
@@ -33,14 +32,10 @@ void ShowDeleteScreen(int64_t numberOfProducts, struct Product products[])
                 scanf("%*s");
             }
             else
-            {
                 result = DeleteByLine(GetLine(id));
-            }
 
             if (!result)
-            {
                 printf("ENTER THE PRODUCT YOU WANT TO DELETE (BY ID)?\n");
-            }
         }
     }
 }
@@ -73,9 +68,7 @@ void ShowProductsScreen(int64_t numberOfProducts, struct Product products[])
     }
 
     if (numberOfProducts == 0)
-    {
         dprint("YOU HAVE NOTHING IN YOUR INVENTORY AT THE MOMENT\n\n", Cyan);
-    }
 }
 
 void ShowAddScreen()
@@ -110,10 +103,7 @@ void ShowAddScreen()
         ClearConsole();
     }
     else
-    {
-
         name = GetName(barcode);
-    }
 
     AddProductToFile(name, barcode);
 }
@@ -138,7 +128,5 @@ void ShowFeedScreen(int64_t numberOfFeed, struct Feed feed[])
     }
 
     if (numberOfFeed == 0)
-    {
         dprint("THERE IS NOTHING IN THE FEED AT THE MOMENT\n\n", '3');
-    }
 }

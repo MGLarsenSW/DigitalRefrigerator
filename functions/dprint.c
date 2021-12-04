@@ -1,4 +1,5 @@
-void dprint(char* text, char type) {
+void dprint(char *text, char type)
+{
 
     switch (type)
     {
@@ -27,10 +28,9 @@ void dprint(char* text, char type) {
     case White:
         printf("\033[1;37m%s\033[0m", text);
         break;
-    
+
     default:
         printf("%s", text);
         break;
     }
-
 }
