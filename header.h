@@ -50,7 +50,6 @@ void ShowFeedScreen();
 void ShowAddScreen();
 void AddProduct();
 int64_t HandleScan();
-char *strdup();
 void GetUserProducts();
 void GetFeed();
 char *GetName();

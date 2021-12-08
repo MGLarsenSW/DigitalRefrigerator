@@ -56,15 +56,19 @@ void ShowProductsScreen(int64_t numberOfProducts, struct Product products[])
         snprintf(name, sizeof(name), "%s (%lld) \n", getname, products[i].id);
         dprint(name, White);
 
-        free(getname);
-
+        char *addedtime = timetostring(products[i].added);
         char added[50];
-        snprintf(added, sizeof(added), "%s - ", timetostring(products[i].added));
+        snprintf(added, sizeof(added), "%s - ", addedtime);
         dprint(added, Green);
 
+        char *datetime = timetostring(products[i].date);
         char date[50];
-        snprintf(date, sizeof(date), "%s \n\n", timetostring(products[i].date));
+        snprintf(date, sizeof(date), "%s \n\n", datetime);
         dprint(date, Red);
+
+        free(addedtime);
+        free(getname);
+        free(datetime);
     }
 
     if (numberOfProducts == 0)

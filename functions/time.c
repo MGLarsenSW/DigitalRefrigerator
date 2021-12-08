@@ -34,11 +34,12 @@ char *timetostring(int64_t unixtime)
     time_t time;
     struct tm ts;
     char buf[80];
+    char *timeString = (char *)malloc(80);
 
     time = unixtime;
 
     ts = *localtime(&time);
-    strftime(buf, sizeof(buf), "%a %d-%m-%Y", &ts);
+    strftime(timeString, 80, "%a %d-%m-%Y", &ts);
 
-    return strdup(buf);
+    return timeString;
 }
