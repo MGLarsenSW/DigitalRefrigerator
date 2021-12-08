@@ -55,7 +55,6 @@ void GetUserProducts();
 void GetFeed();
 char *GetName();
 int64_t GetLine();
-void dprint();
 int64_t stringtotime();
 char *timetostring();
 int64_t S64();

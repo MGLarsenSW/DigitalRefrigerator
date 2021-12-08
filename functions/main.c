@@ -7,7 +7,7 @@ void ClearConsole()
 {
 #ifdef _WIN32
     system("cls");
-#else //In any other OS
+#else // In any other OS
     system("clear");
 #endif
 }
@@ -38,26 +38,6 @@ int64_t HandleScan(int64_t screen)
         return StateExit;
 
     return 0;
-}
-
-// https://stackoverflow.com/questions/10131464/returning-a-char-pointer-in-c
-char *strdup(const char *org)
-{
-
-    if (org == NULL)
-        return NULL;
-
-    char *newstr = malloc(strlen(org) + 1);
-    char *p;
-
-    if (newstr == NULL)
-        return NULL;
-
-    p = newstr;
-
-    while (*org)
-        *p++ = *org++; /* copy the string. */
-    return newstr;
 }
 
 int64_t S64(const char *s)
