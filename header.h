@@ -5,11 +5,12 @@
 
 enum State
 {
-    StateShowProductsScreen = 1,
-    StateShowAddScreen = 2,
-    StateShowFeedScreen = 3,
-    StateShowDeleteScreen = 4,
-    StateExit = 5
+    StateShowWelcomeScreen,
+    StateShowProductsScreen,
+    StateShowAddScreen,
+    StateShowFeedScreen,
+    StateShowDeleteScreen,
+    StateExit
 };
 
 enum Color
@@ -42,14 +43,13 @@ struct Feed
 };
 
 void ClearConsole();
-void HandleScreens();
 void ShowWelcomeScreen();
 void ShowProductsScreen();
 void ShowDeleteScreen();
 void ShowFeedScreen();
 void ShowAddScreen();
 void AddProduct();
-int64_t HandleScan();
+enum State HandleScan();
 void GetUserProducts();
 void GetFeed();
 char *GetName();

@@ -13,7 +13,7 @@
 int main(void)
 {
 
-    int64_t screen = 0;
+    enum State screen = StateShowWelcomeScreen;
     int64_t numberOfProducts = 0;
     int64_t numberOfFeed = 0;
     struct Product products[100];

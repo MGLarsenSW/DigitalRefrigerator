@@ -12,7 +12,7 @@ void ClearConsole()
 #endif
 }
 
-int64_t HandleScan(int64_t screen)
+enum State HandleScan(enum State screen)
 {
 
     if (screen)
@@ -37,7 +37,7 @@ int64_t HandleScan(int64_t screen)
     if (toupper(ch) == 'Q' && !screen)
         return StateExit;
 
-    return 0;
+    return StateShowWelcomeScreen;
 }
 
 int64_t S64(const char *s)
