@@ -95,7 +95,7 @@ void ShowAddScreen()
 
     ClearConsole();
 
-    if (S64(GetName(barcode)) == 1)
+    if (GetName(barcode) == NULL)
     {
 
         dprint("\nTHE PRODUCT IS NOT IN OUR DATABASE.\n", Red);

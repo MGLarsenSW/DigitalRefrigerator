@@ -27,7 +27,7 @@ char *GetName(int64_t id)
 
     FILE *fp = fopen(PATH_TO_BARCODE_LIST, "r");
 
-    if (fp)
+    if (fp != NULL)
     {
         int64_t i = 0, product_id;
         char *name = (char *)malloc(20);
@@ -36,14 +36,17 @@ char *GetName(int64_t id)
         {
 
             if (product_id == id)
+            {
+                fclose(fp);
                 return name;
+            }
         }
 
         fclose(fp);
         free(name);
     }
 
-    return "1";
+    return NULL;
 }
 
 int AddProductToFile(char *name, int64_t barcode)
@@ -143,7 +146,7 @@ int DeleteByLine(int lineOfProduct)
         fclose(temp);
         fclose(fp);
 
-        //Delete old user_products.txt and rename temp
+        // Delete old user_products.txt and rename temp
         remove(PATH_TO_USER_PRODUCTS);
         if (rename(PATH_TO_TEMP, PATH_TO_USER_PRODUCTS))
         {
