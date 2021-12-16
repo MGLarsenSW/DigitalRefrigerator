@@ -1,8 +1,8 @@
 # Digital Fridge
 
-Aalborg University, Copenhagen (AAU)
-Software P1 Project
-Group 8
+Aalborg University, Copenhagen (AAU)  
+Software P1 Project 
+Group 8 
 
 ## File Structure
   - **program.c** - File contain ```main()```
