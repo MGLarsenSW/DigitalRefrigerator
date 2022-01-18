@@ -6,6 +6,8 @@ int64_t GetCurrentTime()
 int64_t stringtotime(char *tid)
 {
 
+    time_t result = 0;
+
     int year = 0, month = 0, day = 0;
 
     if (sscanf(tid, "%d-%d-%d", &day, &month, &year) == 3)
@@ -17,7 +19,10 @@ int64_t stringtotime(char *tid)
         breakdown.tm_hour = 0;
         breakdown.tm_min = 0;
 
-        return (int64_t)mktime(&breakdown);
+        if ((result = mktime(&breakdown)) == (time_t)-1)
+            return INT_MAX;
+
+        return (int64_t)result;
     }
 
     return -1; // return error (wrong format)
